@@ -16,6 +16,10 @@ public class MicrophoneInput : MonoBehaviour
     int sampleWindow = 128;
     //Test Variable
     public float soundLevel;
+    //Test Light
+    public Light light;
+    //Test Intensity
+    private float intensity = 0;
 
 	// Use this for initialization
 	void Start ()
@@ -32,6 +36,17 @@ public class MicrophoneInput : MonoBehaviour
     {
         normalizedMicrophoneInput = MaxVolume();
         soundLevel = normalizedMicrophoneInput;
+
+        if (intensity < soundLevel)
+        {
+            intensity = soundLevel;
+        }
+        else
+        {
+            intensity -= 0.01f;
+        }
+
+        light.intensity = intensity;
 	}
 
     //Get a Normalised Volume Peak from the Sampled Audio Clip
@@ -71,7 +86,7 @@ public class MicrophoneInput : MonoBehaviour
                 maxVolume = wavePeak;
             }
         }
-
+        
         //return the float
         return maxVolume;
     }
