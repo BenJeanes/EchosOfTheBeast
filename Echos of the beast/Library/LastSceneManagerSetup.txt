@@ -1,4 +1,8 @@
 sceneSetups:
+<<<<<<< HEAD
+- path: Assets/Dev Scenes/Movement Prototype.unity
+=======
 - path: Assets/Scenes/Test.unity
+>>>>>>> Develop
   isLoaded: 1
   isActive: 1
