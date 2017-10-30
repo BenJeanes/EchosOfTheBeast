@@ -7,11 +7,14 @@ public class ControllerPlaceAnchor : MonoBehaviour
     private SteamVR_TrackedObject trackedObj;
     public GameObject anchor;
     public GameObject player;
+    public GameObject VR_PlayArea;
     private SteamVR_Controller.Device Controller
     {
         get { return SteamVR_Controller.Input((int)trackedObj.index); }
     }
     bool moving = false;
+    Vector3 startpos;
+    float speed = 5.0f;
     
 
     private void Awake()
@@ -22,22 +25,21 @@ public class ControllerPlaceAnchor : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
+        Debug.DrawRay(player.transform.position, (anchor.transform.position - player.transform.position) * 10, Color.red);     
         if (Controller.GetHairTriggerDown())
-        {
-            if (!moving)
-            {
-                moving = true;
-                anchor.transform.position = Controller.transform.pos;
-                Vector3 fromPlayerToAnchor = player.transform.position - anchor.transform.position;
-                Debug.Log(string.Format("Movement vector = ({0},{1})", fromPlayerToAnchor.x, fromPlayerToAnchor.z));
-            }
+        {            
+            anchor.transform.position = this.transform.position;
+            moving = true;
+            startpos = VR_PlayArea.transform.position;
         }
         if (Controller.GetHairTriggerUp())
         {
-            if(moving)
-            {
-                moving = false;
-            }
+            float step = speed * Time.deltaTime;
+            VR_PlayArea.transform.position = Vector3.MoveTowards(startpos, anchor.transform.position - player.transform.position, step);
+        }
+        if(moving)
+        {          
+            
         }
 
     }
