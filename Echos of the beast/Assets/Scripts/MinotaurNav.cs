@@ -58,7 +58,7 @@ public class MinotaurNav : MonoBehaviour
 		if (patrolPoints.Length > 0) 
 		{
 			navMeshAgent.SetDestination (patrolPoints [currentPatrolPoint].transform.position);
-			if (transform.position == patrolPoints [currentPatrolPoint].transform.position || Vector3.Distance(transform.position,patrolPoints[currentPatrolPoint].transform.position)<0.2f) 
+			if (transform.position == patrolPoints [currentPatrolPoint].transform.position || Vector3.Distance(transform.position, patrolPoints[currentPatrolPoint].transform.position) < 0.2f) 
 			{
 				currentPatrolPoint++;
 			}
