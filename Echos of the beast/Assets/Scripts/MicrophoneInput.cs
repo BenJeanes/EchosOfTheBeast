@@ -20,6 +20,7 @@ public class MicrophoneInput : MonoBehaviour
     public Light light;
     //Test Intensity
     private float intensity = 0;
+    public float multiplier = 1;
 
 	// Use this for initialization
 	void Start ()
@@ -36,15 +37,25 @@ public class MicrophoneInput : MonoBehaviour
     {
         normalizedMicrophoneInput = MaxVolume();
         soundLevel = normalizedMicrophoneInput;
-
+        /*
         if (intensity < soundLevel)
         {
-            intensity = soundLevel;
+            intensity = soundLevel * 5;
         }
         else
         {
             intensity -= 0.01f;
         }
+        */
+        if(soundLevel > 0.1)
+        {
+            intensity = soundLevel * multiplier;
+        }
+        else
+        {
+            intensity -= (intensity * 0.0005f) + 0.05f;
+        }
+
 
         light.intensity = intensity;
 	}
