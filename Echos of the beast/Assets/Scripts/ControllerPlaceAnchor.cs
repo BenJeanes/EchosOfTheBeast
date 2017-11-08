@@ -41,21 +41,24 @@ public class ControllerPlaceAnchor : MonoBehaviour
         if(Controller.GetHairTriggerUp())
         {
             moving = false;
-            VR_Rig.GetComponent<Rigidbody>().AddForce(VR_Camera.transform.forward * (2*VR_Rig.GetComponent<Rigidbody>().velocity.magnitude));
+            //Debug.Log(VR_Rig.GetComponent<Rigidbody>().velocity.magnitude);
+            //VR_Rig.GetComponent<Rigidbody>().AddForce(VR_Camera.transform.forward * (2*VR_Rig.GetComponent<Rigidbody>().velocity.magnitude));
         }
         if(moving)
         {            
             change = controllerPosAtTrigDown - this.transform.position;
             change = ClampYToZero(change);
-            Debug.Log(change);
-            VR_Rig.GetComponent<Rigidbody>().AddForce(change); //* (1 + this.GetComponent<Rigidbody>().velocity.magnitude));            
+            change *= 100;
+            Debug.Log(Controller.velocity.magnitude);
+            if(Controller.velocity.magnitude > 0.01f)
+            {
+                VR_Rig.GetComponent<Rigidbody>().AddForce(change * (1 + this.GetComponent<Rigidbody>().velocity.magnitude));
+            }                        
         }
     }
 
     private Vector3 ClampYToZero(Vector3 v)
-    {
-        v = new Vector3(v.x, 0, v.z);
-        v *=  movementScalar;
-        return v;
+    {       
+        return new Vector3(v.x, 0, v.z);
     }
 }
