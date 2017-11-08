@@ -10,7 +10,8 @@ public class ControllerPlaceAnchor : MonoBehaviour
     public GameObject VR_Camera;
     public GameObject VR_Rig;
 
-    public float scalar;
+    public float forceMultiplier;
+    public float movementScalar;
 
     private SteamVR_Controller.Device Controller
     {
@@ -43,11 +44,10 @@ public class ControllerPlaceAnchor : MonoBehaviour
             //Debug.Log(string.Format("{0} * {1} * (1 + {2})", change, scalar, this.GetComponent<Rigidbody>().velocity.magnitude));
         }
         if(moving)
-        {
-            
+        {            
             change = controllerPosAtTrigDown - this.transform.position;
             change = ClampYToZero(change);
-            VR_Rig.GetComponent<Rigidbody>().AddForce(change * scalar * (1 + this.GetComponent<Rigidbody>().velocity.magnitude));
+            VR_Rig.GetComponent<Rigidbody>().AddForce(change * forceMultiplier * (1 + this.GetComponent<Rigidbody>().velocity.magnitude));
             if(VR_Rig.GetComponent<Rigidbody>().velocity.magnitude > 0.5f)
             {
                 //Debug.Log(VR_Rig.GetComponent<Rigidbody>().velocity.magnitude);
@@ -58,6 +58,8 @@ public class ControllerPlaceAnchor : MonoBehaviour
 
     private Vector3 ClampYToZero(Vector3 v)
     {
-        return v = new Vector3(v.x, 0, v.z);
+        v = new Vector3(v.x, 0, v.z);
+        v *=  movementScalar;
+        return v;
     }
 }

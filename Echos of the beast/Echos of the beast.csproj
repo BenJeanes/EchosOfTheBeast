@@ -110,7 +110,6 @@
     <Compile Include="Assets\Scripts\ControllerPlaceAnchor.cs" />
     <Compile Include="Assets\Scripts\MicrophoneInput.cs" />
     <Compile Include="Assets\Scripts\MinotaurNav.cs" />
-    <Compile Include="Assets\Scripts\MoveAnchor.cs" />
     <Compile Include="Assets\Scripts\ViveControllerInputTest.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_GazeTracker.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_LaserPointer.cs" />
