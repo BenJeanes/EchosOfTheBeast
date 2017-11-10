@@ -5,7 +5,10 @@ using UnityEngine.AI;
 
 public class MinotaurNav : MonoBehaviour 
 {
-	//public variables
+    //public variables
+
+    //Minotaurs Movement Speed
+    private int movementSpeed = 9;
 
 	//Destination Target
 	[SerializeField]
@@ -15,12 +18,20 @@ public class MinotaurNav : MonoBehaviour
 	[SerializeField]
 	GameObject[] patrolPoints;
 
-	//Array that contains patrolPoints[] reversed
-	private GameObject[] reversePatrolPoints;
-
+    //Array that contains patrolPoints[] reversed
+    private GameObject[] reversePatrolPoints;
 	public int currentPatrolPoint;
-	private NavMeshAgent navMeshAgent;
 
+    //NavMeshAgent, controls the movement of the Minotaur
+    private NavMeshAgent navMeshAgent;
+
+    //Variables for Sound Detection
+    public float soundSensitivity = 50f;
+    public float distanceToPlayer;
+
+    //State
+    public bool huntingState = false;
+    
 
 	// Use this for initialization
 	void Start () 
@@ -41,7 +52,10 @@ public class MinotaurNav : MonoBehaviour
 
 	void Update()
 	{
-		Patrol ();
+		Patrol();
+        ListenForSound();
+
+        Debug.Log(Vector3.Distance(transform.position, (GameObject.Find("Player_Rig")).transform.position));
 	}
 	
 //	private void SetDestination()
@@ -53,9 +67,10 @@ public class MinotaurNav : MonoBehaviour
 //		}
 //	}
 
+    //Patrol State
 	private void Patrol()
 	{
-		if (patrolPoints.Length > 0) 
+        if (patrolPoints.Length > 0 && huntingState == false) 
 		{
 			navMeshAgent.SetDestination (patrolPoints [currentPatrolPoint].transform.position);
 			if (transform.position == patrolPoints [currentPatrolPoint].transform.position || Vector3.Distance(transform.position, patrolPoints[currentPatrolPoint].transform.position) < 0.2f) 
@@ -77,4 +92,41 @@ public class MinotaurNav : MonoBehaviour
 			}
 		}
 	}
+
+    //Hunt State
+    private void Hunt()
+    {
+        //Code here
+
+        //After Hunting, stop Hunting
+        huntingState = false;
+    }
+
+    private void ListenForSound()
+    {
+        //What is the 0-1f value of the players microphone input
+        float playerSoundLevel = MicrophoneInput.normalizedMicrophoneInput;
+
+        //The Vector3 location of the player
+        Vector3 playerLocation = (GameObject.Find("Player_Rig")).transform.position;
+
+        //How far away is the Minotaur from the Player
+        distanceToPlayer = Vector3.Distance(transform.position, playerLocation);
+
+        //The sound level of the player from the minotaurs location
+        float soundLevel = playerSoundLevel * Vector3.Distance(transform.position, playerLocation);
+
+        if (soundLevel >= soundSensitivity)
+        {
+            //Start Hunting State
+            huntingState = true;
+            movementSpeed = 15;
+
+            navMeshAgent.SetDestination(playerLocation);
+            if (transform.position == playerLocation || Vector3.Distance(transform.position, playerLocation) < 0.2f)
+            {
+                Hunt();
+            }
+        }
+    }
 }
