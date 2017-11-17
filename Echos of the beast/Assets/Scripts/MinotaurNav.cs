@@ -3,24 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MinotaurNav : MonoBehaviour 
+public class MinotaurNav : MonoBehaviour
 {
     //public variables
 
     //Minotaurs Movement Speed
     private int movementSpeed = 9;
 
-	//Destination Target
-	[SerializeField]
-	Transform destination;
+    //Array of Front Raycast Positions
+    [SerializeField]
+    GameObject[] frontRaycast;
 
-	//Array of GameObjects that make up the Patrol Route
-	[SerializeField]
-	GameObject[] patrolPoints;
+    //Array of Back Raycast Positions
+    [SerializeField]
+    GameObject[] backRaycast;
+
+    //Destination Target
+    [SerializeField]
+    Transform destination;
+
+    //Array of GameObjects that make up the Patrol Route
+    [SerializeField]
+    GameObject[] patrolPoints;
 
     //Array that contains patrolPoints[] reversed
     private GameObject[] reversePatrolPoints;
-	public int currentPatrolPoint;
+    public int currentPatrolPoint;
 
     //NavMeshAgent, controls the movement of the Minotaur
     private NavMeshAgent navMeshAgent;
@@ -28,78 +36,101 @@ public class MinotaurNav : MonoBehaviour
     //Variables for Sound Detection
     public float soundSensitivity = 50f;
     public float distanceToPlayer;
+    public Vector3 targetLocation;
+
+    //Hunting State Variables
+    public float pauseTime = 3.0f;
 
     //State
-    public bool huntingState = false;
-    
+    private bool huntingState = false;
+    private bool chargingState = false;
 
-	// Use this for initialization
-	void Start () 
-	{
-		navMeshAgent = this.GetComponent<NavMeshAgent>();
-		reversePatrolPoints = new GameObject [patrolPoints.Length];
 
-		for (int i = 0; i < patrolPoints.Length; i++)
-		{
-			reversePatrolPoints [patrolPoints.Length - 1 - i] = patrolPoints [i];
-		}
+    // Use this for initialization
+    void Start()
+    {
+        navMeshAgent = this.GetComponent<NavMeshAgent>();
+        reversePatrolPoints = new GameObject[patrolPoints.Length];
 
-		if (navMeshAgent == null) 
-		{
-			Debug.LogError ("The NavMeshAgent is not attached to " + gameObject.name);
-		} 
-	}
+        for (int i = 0; i < patrolPoints.Length; i++)
+        {
+            reversePatrolPoints[patrolPoints.Length - 1 - i] = patrolPoints[i];
+        }
 
-	void Update()
-	{
-		Patrol();
+        if (navMeshAgent == null)
+        {
+            Debug.LogError("The NavMeshAgent is not attached to " + gameObject.name);
+        }
+    }
+
+    void Update()
+    {
+        Patrol();
         ListenForSound();
+        Footstep();
 
         Debug.Log(Vector3.Distance(transform.position, (GameObject.Find("Player_Rig")).transform.position));
-	}
-	
-//	private void SetDestination()
-//	{
-//		if (destination != null) 
-//		{
-//			Vector3 targetVector = destination.transform.position;
-//			navMeshAgent.SetDestination (targetVector);
-//		}
-//	}
+    }
+
+    //	private void SetDestination()
+    //	{
+    //		if (destination != null) 
+    //		{
+    //			Vector3 targetVector = destination.transform.position;
+    //			navMeshAgent.SetDestination (targetVector);
+    //		}
+    //	}
+
+    private void Footstep()
+    {
+
+    }
 
     //Patrol State
-	private void Patrol()
-	{
-        if (patrolPoints.Length > 0 && huntingState == false) 
-		{
-			navMeshAgent.SetDestination (patrolPoints [currentPatrolPoint].transform.position);
-			if (transform.position == patrolPoints [currentPatrolPoint].transform.position || Vector3.Distance(transform.position, patrolPoints[currentPatrolPoint].transform.position) < 0.2f) 
-			{
-				currentPatrolPoint++;
-			}
+    private void Patrol()
+    {
+        if (patrolPoints.Length > 0 && huntingState == false)
+        {
+            navMeshAgent.SetDestination(patrolPoints[currentPatrolPoint].transform.position);
+            if (transform.position == patrolPoints[currentPatrolPoint].transform.position || Vector3.Distance(transform.position, patrolPoints[currentPatrolPoint].transform.position) < 0.2f)
+            {
+                currentPatrolPoint++;
+            }
 
-			if (currentPatrolPoint >= patrolPoints.Length) 
-			{
-				GameObject[] temp = patrolPoints;
+            if (currentPatrolPoint >= patrolPoints.Length)
+            {
+                GameObject[] temp = patrolPoints;
 
-				patrolPoints = null;
+                patrolPoints = null;
 
-				patrolPoints = reversePatrolPoints;
+                patrolPoints = reversePatrolPoints;
 
-				reversePatrolPoints = temp;
+                reversePatrolPoints = temp;
 
-				currentPatrolPoint = 0;
-			}
-		}
-	}
+                currentPatrolPoint = 0;
+            }
+        }
+    }
 
     //Hunt State
     private void Hunt()
     {
-        //Code here
+        //First Minotaur pauses at the hunt location
+        float time = 0;
+        while(time < pauseTime)
+        {
+            time += Time.deltaTime;
+        }
 
-        //After Hunting, stop Hunting
-        huntingState = false;
+        //Continue Hunt State
+        if(time >= pauseTime)
+        {
+            //Collect/Generate Patrol Points nearby 
+
+
+            //After Hunting, stop Hunting
+            huntingState = false;
+        }
     }
 
     private void ListenForSound()
@@ -118,14 +149,47 @@ public class MinotaurNav : MonoBehaviour
 
         if (soundLevel >= soundSensitivity)
         {
-            //Start Hunting State
-            huntingState = true;
-            movementSpeed = 15;
-
-            navMeshAgent.SetDestination(playerLocation);
-            if (transform.position == playerLocation || Vector3.Distance(transform.position, playerLocation) < 0.2f)
+            //Check if Sound Location (Location where player made the sound) is hit by the RayCasts before a wall (the player is in visual range/in the same corridor as the minotaur)
+            foreach (GameObject position in frontRaycast)
             {
-                Hunt();
+                RaycastHit hit;
+                Physics.Raycast(position.transform.position, transform.TransformDirection(Vector3.forward), out hit);
+                
+                if(hit.collider.gameObject.name == "Player_Rig")
+                {
+                    //Break and Charge
+                    chargingState = true;
+                    break;
+                }
+            }
+
+            foreach (GameObject position in backRaycast)
+            {
+                RaycastHit hit;
+                Physics.Raycast(position.transform.position, transform.TransformDirection(Vector3.back), out hit);
+
+                if (hit.collider.gameObject.name == "Player_Rig")
+                {
+                    //Break and Charge
+                    chargingState = true;
+                    break;
+                }
+            }
+
+            if(chargingState == false)
+            {
+                //Start Hunting State
+                huntingState = true;
+                movementSpeed = 15;
+
+                targetLocation = playerLocation;
+
+                navMeshAgent.SetDestination(targetLocation);
+
+                if (transform.position == targetLocation || Vector3.Distance(transform.position, targetLocation) < 0.2f)
+                {
+                    Hunt();
+                }
             }
         }
     }
