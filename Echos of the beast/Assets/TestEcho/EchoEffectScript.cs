@@ -2,62 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EchoRadius : MonoBehaviour {
+public class EchoEffectScript : MonoBehaviour
+{
+   
+    public Vector4 origin;
+    
+    public Material effectMat;
+    [SerializeField]
+    private float speed = 5;
+    [SerializeField]
+    private float distance;
+    [SerializeField]
+    private float width = 2;
 
-    public Transform EchoOrigin;
-    public Material EchoMaterial;
-
-    public float EchoDistance;
-
-    //Shader properties
-    public float travelRate;
-    public float range;
-    public float fadeRate;
-    public float width;
+    bool _active;
 
     private Camera _cam;
 
-    bool _echoActive;
-        
-    void Update()
-    {
-        if(_echoActive)
-        {
-            EchoDistance += Time.deltaTime * fadeRate;            
-        }
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            _echoActive = true;
-            EchoDistance = 0;
-        }
-
-        if(Input.GetMouseButtonDown(0))
-        {
-            Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if(Physics.Raycast(ray,out hit))
-            {
-                _echoActive = true;
-                EchoDistance = 0;
-                EchoOrigin.position = hit.point;
-            }
-        }
-    }
-    
     void OnEnable()
     {
         _cam = GetComponent<Camera>();
         _cam.depthTextureMode = DepthTextureMode.Depth;
     }
 
-    [ImageEffectOpaque]
-    void OnRenderImage(RenderTexture src, RenderTexture dst)
+    private void Update()
     {
-        EchoMaterial.SetVector("_WorldSpaceScannerPos", EchoOrigin.position);
-        EchoMaterial.SetFloat("_EchoDistance", EchoDistance);
-        EchoMaterial.SetFloat("range", range);
-        EchoMaterial.SetFloat("_EchoWidth", width);
-        RaycastCornerBlit(src, dst, EchoMaterial);
+        distance += Time.deltaTime * speed;
+    }
+
+    [ImageEffectOpaque]
+    private void OnRenderImage(RenderTexture source, RenderTexture destination)
+    {
+        effectMat.SetVector("_WorldSpaceScannerPos", origin);
+        effectMat.SetFloat("_EchoDistance", distance);
+        effectMat.SetFloat("_EchoWidth", 2);
+        RaycastCornerBlit(source, destination, effectMat);
     }
 
     void RaycastCornerBlit(RenderTexture source, RenderTexture dest, Material mat)
