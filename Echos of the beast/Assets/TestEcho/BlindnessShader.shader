@@ -16,9 +16,7 @@
 			#pragma vertex vert
 			#pragma fragment frag
 
-			#include "UnityCG.cginc"
-
-			
+			#include "UnityCG.cginc"			
 
 			struct appdata
 			{
@@ -44,7 +42,8 @@
 
 			fixed4 frag (v2f i) : SV_Target
 			{
-				return half4(0,0,0,0);
+				half4 col = tex2D(_MainTex, i.uv);
+				return col - _BlindColor;
 			}
 			ENDCG
 		}

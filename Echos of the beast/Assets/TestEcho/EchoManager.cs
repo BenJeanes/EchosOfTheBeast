@@ -5,11 +5,16 @@ using UnityEngine;
 public class EchoManager : MonoBehaviour
 {
     public Material effectMat;
+    [Range(0.5f,5.0f)]
+    public float width;
+    public float speed;
+    public float sharpness;
     Camera _cam;
 
     private void Start()
     {
         _cam = GetComponent<Camera>();
+        width = 0.5f;
     }
 
     void Update()
@@ -20,13 +25,19 @@ public class EchoManager : MonoBehaviour
             Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
-            {                
+            {
                 mousePosAtClick = hit.point;
-                EchoEffectScript eff = this.gameObject.AddComponent<EchoEffectScript>();                
-                eff.origin = mousePosAtClick;
-                eff.effectMat = effectMat;
-            }             
-            
+                CreateEchoEffect(mousePosAtClick, width);
+            }
         }
+    }
+
+    public void CreateEchoEffect(Vector4 originPos, float width)
+    {
+        EchoImageEffect newEchoImageEffect = this.gameObject.AddComponent<EchoImageEffect>();
+        newEchoImageEffect.EffectMaterial = effectMat;
+        newEchoImageEffect.Origin = originPos;
+        newEchoImageEffect.Width = width;
+        newEchoImageEffect.LeadingEdgeSharpness = sharpness;
     }
 }

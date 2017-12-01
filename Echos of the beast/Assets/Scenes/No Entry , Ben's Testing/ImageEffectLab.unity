@@ -763,13 +763,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectMat: {fileID: 2100000, guid: 9d3a76ab5e995554b91d841db8165ec1, type: 2}
+  width: 0
+  speed: 0
+  sharpness: 0
 --- !u!114 &1649688727
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1649688719}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0bcb362ea40c4664b857ec588a6b6e5a, type: 3}
   m_Name: 
