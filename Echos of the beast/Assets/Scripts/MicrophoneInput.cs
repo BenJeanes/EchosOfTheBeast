@@ -22,6 +22,8 @@ public class MicrophoneInput : MonoBehaviour
     private float intensity = 0;
     public float multiplier = 1;
 
+    public EchoManager em;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -30,6 +32,7 @@ public class MicrophoneInput : MonoBehaviour
             inputDevice = Microphone.devices[0];
             audioClip = Microphone.Start(inputDevice, true, 999, 44100);
         }
+        em = this.GetComponent<EchoManager>();
 	}
 	
 	// Update is called once per frame
@@ -49,15 +52,16 @@ public class MicrophoneInput : MonoBehaviour
         */
         if(soundLevel > 0.1)
         {
-            intensity = soundLevel * multiplier;
+            em.inputFromMicScript = soundLevel * multiplier;            
         }
         else
         {
-            intensity -= (intensity * 0.0005f) + 0.05f;
+            em.inputFromMicScript = 0;
+            //intensity -= (intensity * 0.0005f) + 0.05f;
         }
 
 
-        light.intensity = intensity;
+        //light.intensity = intensity;
 	}
 
     //Get a Normalised Volume Peak from the Sampled Audio Clip
