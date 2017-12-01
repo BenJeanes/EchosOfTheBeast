@@ -1,4 +1,4 @@
-﻿Shader "BenEffect/EchoShader"
+﻿Shader "ImageEffect/EchoShader"
 {
 	Properties
 	{
