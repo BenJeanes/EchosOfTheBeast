@@ -51,7 +51,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Echo\EchoRadius.cs" />
+     <Compile Include="Assets\Echo Assets\BlindImageEffect.cs" />
+     <Compile Include="Assets\Echo Assets\EchoImageEffect.cs" />
+     <Compile Include="Assets\Echo Assets\EchoManager.cs" />
      <Compile Include="Assets\ProCore\ProBuilder\API Examples\Icosphere FFT\Scripts\CameraControls.cs" />
      <Compile Include="Assets\ProCore\ProBuilder\API Examples\Icosphere FFT\Scripts\IcoBumpin.cs" />
      <Compile Include="Assets\ProCore\ProBuilder\API Examples\Misc\HueCube.cs" />
@@ -60,12 +62,10 @@
      <Compile Include="Assets\ProCore\ProBuilder\API Examples\Vertex Colors\HighlightNearestFace.cs" />
      <Compile Include="Assets\Scripts\ArmSwinger\ArmSwinger.cs" />
      <Compile Include="Assets\Scripts\ArmSwinger\HeadsetCollider.cs" />
-     <Compile Include="Assets\Scripts\Bens Test Script\PlayerMove.cs" />
      <Compile Include="Assets\Scripts\ControllerGrabObject.cs" />
      <Compile Include="Assets\Scripts\ControllerPlaceAnchor.cs" />
      <Compile Include="Assets\Scripts\MicrophoneInput.cs" />
      <Compile Include="Assets\Scripts\MinotaurNav.cs" />
-     <Compile Include="Assets\Scripts\MoveAnchor.cs" />
      <Compile Include="Assets\Scripts\ViveControllerInputTest.cs" />
      <Compile Include="Assets\SteamVR\Extras\SteamVR_GazeTracker.cs" />
      <Compile Include="Assets\SteamVR\Extras\SteamVR_LaserPointer.cs" />
@@ -169,9 +169,6 @@
      <Compile Include="Assets\SteamVR\Scripts\SteamVR_TrackedObject.cs" />
      <Compile Include="Assets\SteamVR\Scripts\SteamVR_UpdatePoses.cs" />
      <Compile Include="Assets\SteamVR\Scripts\SteamVR_Utils.cs" />
-     <Compile Include="Assets\TestEcho\BlindImageEffect.cs" />
-     <Compile Include="Assets\TestEcho\EchoImageEffect.cs" />
-     <Compile Include="Assets\TestEcho\EchoManager.cs" />
      <None Include="Assets\ProCore\ProBuilder\Shader\pb_TransparentOverlay.shader" />
      <None Include="Assets\ProCore\ProBuilder\API Examples\Icosphere FFT\README.txt" />
      <None Include="Assets\SteamVR\Resources\SteamVR_Fade.shader" />
@@ -191,10 +188,9 @@
      <None Include="Assets\ProCore\ProBuilder\About\ThirdPartyLicenses.txt" />
      <None Include="Assets\ProCore\ProBuilder\Shader\pb_UnlitVertexColor.shader" />
      <None Include="Assets\ProCore\ProBuilder\Shader\pb_FacePicker.shader" />
-     <None Include="Assets\TestEcho\MultiEchoLoc.shader" />
+     <None Include="Assets\Echo Assets\EchoShader.shader" />
      <None Include="Assets\ProCore\ProBuilder\About\Font\SIL Open Font License.txt" />
-     <None Include="Assets\Echo\EchoShader.shader" />
-     <None Include="Assets\TestEcho\BlindnessShader.shader" />
+     <None Include="Assets\Echo Assets\BlindnessShader.shader" />
      <None Include="Assets\ProCore\ProBuilder\About\pc_AboutEntry_ProBuilder.txt" />
      <None Include="Assets\ProCore\ProBuilder\Shader\pb_VertexShader.shader" />
      <None Include="Assets\SteamVR\Resources\SteamVR_SphericalProjection.shader" />

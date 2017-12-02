@@ -16,8 +16,6 @@ public class MicrophoneInput : MonoBehaviour
     int sampleWindow = 128;
     //Test Variable
     public float soundLevel;
-    //Test Light
-    public Light light;
     //Test Intensity
     private float intensity = 0;
     public float multiplier = 1;
@@ -29,6 +27,7 @@ public class MicrophoneInput : MonoBehaviour
     {
 		if(inputDevice == null)
         {
+            Debug.Log(string.Format("{0} audio input devices connected", Microphone.devices.Length));
             inputDevice = Microphone.devices[0];
             audioClip = Microphone.Start(inputDevice, true, 999, 44100);
         }
@@ -40,16 +39,7 @@ public class MicrophoneInput : MonoBehaviour
     {
         normalizedMicrophoneInput = MaxVolume();
         soundLevel = normalizedMicrophoneInput;
-        /*
-        if (intensity < soundLevel)
-        {
-            intensity = soundLevel * 5;
-        }
-        else
-        {
-            intensity -= 0.01f;
-        }
-        */
+        
         if(soundLevel > 0.1)
         {
             em.inputFromMicScript = soundLevel * multiplier;            
@@ -57,11 +47,7 @@ public class MicrophoneInput : MonoBehaviour
         else
         {
             em.inputFromMicScript = 0;
-            //intensity -= (intensity * 0.0005f) + 0.05f;
         }
-
-
-        //light.intensity = intensity;
 	}
 
     //Get a Normalised Volume Peak from the Sampled Audio Clip
