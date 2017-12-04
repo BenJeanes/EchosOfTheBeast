@@ -21,6 +21,7 @@ public class MicrophoneInput : MonoBehaviour
     //Test Intensity
     private float intensity = 0;
     public float multiplier = 1;
+    public float volumeLimit = 0.7f;
 
 	// Use this for initialization
 	void Start ()
@@ -35,8 +36,12 @@ public class MicrophoneInput : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+        float incrementalMultiplier = 0.0005f;
+
+        //Get Returned Sound Level for the Light Object
         normalizedMicrophoneInput = MaxVolume();
         soundLevel = normalizedMicrophoneInput;
+
         /*
         if (intensity < soundLevel)
         {
@@ -47,16 +52,32 @@ public class MicrophoneInput : MonoBehaviour
             intensity -= 0.01f;
         }
         */
-        if(soundLevel > 0.1)
+
+        //If the Input Sound Level is higher than X threshold, the intensity variable becomes soundLevel (normalised between 0 and 1) times the base multiplier
+        if (soundLevel > (intensity/multiplier) || soundLevel > 0.1f)
         {
             intensity = soundLevel * multiplier;
         }
+
+        //If intensity is less than 0, stop reducing intensity
+        else if(intensity <= 0)
+        {
+            //Do nothing
+        }
+        //Slowly reduce the intensity variable
         else
         {
-            intensity -= (intensity * 0.0005f) + 0.05f;
+            intensity -= (intensity * incrementalMultiplier) + 0.005f;
         }
 
+        if(intensity > volumeLimit)
+        {
+            intensity = volumeLimit;
+        }
 
+        Debug.Log("Final Intensity Value = " + intensity + ", Sound Level = " + soundLevel);
+        
+        //Set the intensity property to the Light Objects Intensity property
         light.intensity = intensity;
 	}
 
@@ -86,7 +107,7 @@ public class MicrophoneInput : MonoBehaviour
             float wavePeak = clipSampleData[i] * clipSampleData[i];
             
             //If the volume isn't about a certain threshold
-            if(wavePeak < 0.01)
+            if(wavePeak < 0.001)
             {
                 wavePeak = 0;
             }

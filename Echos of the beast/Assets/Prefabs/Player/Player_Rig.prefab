@@ -431,8 +431,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anchor: {fileID: 0}
-  player: {fileID: 1072317147921514}
-  VR_PlayArea: {fileID: 1182485969962598}
+  VR_Camera: {fileID: 0}
+  VR_Rig: {fileID: 0}
+  scalar: 0
 --- !u!114 &114090397942552958
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -511,8 +512,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anchor: {fileID: 0}
-  player: {fileID: 1072317147921514}
-  VR_PlayArea: {fileID: 1182485969962598}
+  VR_Camera: {fileID: 0}
+  VR_Rig: {fileID: 0}
+  scalar: 0
 --- !u!114 &114363951765130676
 MonoBehaviour:
   m_ObjectHideFlags: 1

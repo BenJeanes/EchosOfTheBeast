@@ -53,7 +53,6 @@ public class ControllerPlaceAnchor : MonoBehaviour
                 //Debug.Log(VR_Rig.GetComponent<Rigidbody>().velocity.magnitude);
             }
         }
-        Debug.Log(this.GetComponent<Rigidbody>().velocity.magnitude);
     }
 
     private Vector3 ClampYToZero(Vector3 v)
