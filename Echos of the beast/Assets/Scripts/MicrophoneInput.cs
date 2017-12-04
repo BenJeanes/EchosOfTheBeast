@@ -26,7 +26,7 @@ public class MicrophoneInput : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-		if(inputDevice == null)
+		if(inputDevice == null || Microphone.devices != null)
         {
             inputDevice = Microphone.devices[0];
             audioClip = Microphone.Start(inputDevice, true, 999, 44100);
