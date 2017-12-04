@@ -34,16 +34,19 @@ public class MinotaurNav : MonoBehaviour
     private NavMeshAgent navMeshAgent;
 
     //Variables for Sound Detection
-    public float soundSensitivity = 50f;
+    public float soundSensitivity = 0.5f;
+    public bool soundHeard = false;
     public float distanceToPlayer;
     public Vector3 targetLocation;
+    public float playerSoundLevel;
 
     //Hunting State Variables
-    public float pauseTime = 3.0f;
+    public float time;
+    public float pauseTime = 300.0f;
 
     //State
-    private bool huntingState = false;
-    private bool chargingState = false;
+    public bool huntingState = false;
+    public bool chargingState = false;
 
 
     // Use this for initialization
@@ -65,22 +68,13 @@ public class MinotaurNav : MonoBehaviour
 
     void Update()
     {
-        Patrol();
         ListenForSound();
+        Patrol();
         Footstep();
-
-        Debug.Log(Vector3.Distance(transform.position, (GameObject.Find("Player_Rig")).transform.position));
+        Charge();
     }
 
-    //	private void SetDestination()
-    //	{
-    //		if (destination != null) 
-    //		{
-    //			Vector3 targetVector = destination.transform.position;
-    //			navMeshAgent.SetDestination (targetVector);
-    //		}
-    //	}
-
+    //Play Footstep Audio
     private void Footstep()
     {
 
@@ -116,11 +110,7 @@ public class MinotaurNav : MonoBehaviour
     private void Hunt()
     {
         //First Minotaur pauses at the hunt location
-        float time = 0;
-        while(time < pauseTime)
-        {
-            time += Time.deltaTime;
-        }
+        time++;
 
         //Continue Hunt State
         if(time >= pauseTime)
@@ -129,14 +119,36 @@ public class MinotaurNav : MonoBehaviour
 
 
             //After Hunting, stop Hunting
+            time = 0;
             huntingState = false;
+            soundHeard = false;
         }
+    }
+
+    private void Charge()
+    {
+        if (chargingState == true)
+        {
+            Vector3 playerLocation = (GameObject.Find("Player_Rig")).transform.position;
+
+            navMeshAgent.speed = 30;
+
+            targetLocation = playerLocation;
+
+            navMeshAgent.SetDestination(targetLocation);
+
+            if (transform.position == targetLocation || Vector3.Distance(transform.position, targetLocation) < 2f)
+            {
+                chargingState = false;
+            }
+        }
+
     }
 
     private void ListenForSound()
     {
         //What is the 0-1f value of the players microphone input
-        float playerSoundLevel = MicrophoneInput.normalizedMicrophoneInput;
+        playerSoundLevel = MicrophoneInput.normalizedMicrophoneInput;
 
         //The Vector3 location of the player
         Vector3 playerLocation = (GameObject.Find("Player_Rig")).transform.position;
@@ -147,46 +159,56 @@ public class MinotaurNav : MonoBehaviour
         //The sound level of the player from the minotaurs location
         float soundLevel = playerSoundLevel * Vector3.Distance(transform.position, playerLocation);
 
-        if (soundLevel >= soundSensitivity)
+        if (soundLevel >= soundSensitivity && chargingState == false || soundHeard == true && chargingState == false)
         {
-            //Check if Sound Location (Location where player made the sound) is hit by the RayCasts before a wall (the player is in visual range/in the same corridor as the minotaur)
-            foreach (GameObject position in frontRaycast)
+            Debug.Log("Listening");
+            if (soundHeard == false)
             {
-                RaycastHit hit;
-                Physics.Raycast(position.transform.position, transform.TransformDirection(Vector3.forward), out hit);
-                
-                if(hit.collider.gameObject.name == "Player_Rig")
+
+                //Check if Sound Location (Location where player made the sound) is hit by the RayCasts before a wall (the player is in visual range/in the same corridor as the minotaur)
+                foreach (GameObject position in frontRaycast)
                 {
-                    //Break and Charge
-                    chargingState = true;
-                    break;
+                    RaycastHit hit;
+                    Physics.Raycast(position.transform.position, transform.TransformDirection(Vector3.forward), out hit);
+
+                    if (hit.collider.gameObject.name == "Player_Rig")
+                    {
+                        Debug.Log("I see you");
+
+                        //Break and Charge
+                        chargingState = true;
+                        break;
+                    }
+                }
+
+                foreach (GameObject position in backRaycast)
+                {
+                    RaycastHit hit;
+                    Physics.Raycast(position.transform.position, transform.TransformDirection(Vector3.back), out hit);
+
+                    if (hit.collider.gameObject.name == "Player_Rig")
+                    {
+                        Debug.Log("I see you");
+                        //Break and Charge
+                        chargingState = true;
+                        break;
+                    }
                 }
             }
 
-            foreach (GameObject position in backRaycast)
-            {
-                RaycastHit hit;
-                Physics.Raycast(position.transform.position, transform.TransformDirection(Vector3.back), out hit);
+            soundHeard = true;
 
-                if (hit.collider.gameObject.name == "Player_Rig")
-                {
-                    //Break and Charge
-                    chargingState = true;
-                    break;
-                }
-            }
-
-            if(chargingState == false)
+            if (chargingState == false || soundHeard == true)
             {
                 //Start Hunting State
                 huntingState = true;
-                movementSpeed = 15;
+                navMeshAgent.speed = 15;
 
                 targetLocation = playerLocation;
 
                 navMeshAgent.SetDestination(targetLocation);
 
-                if (transform.position == targetLocation || Vector3.Distance(transform.position, targetLocation) < 0.2f)
+                if (transform.position == targetLocation || Vector3.Distance(transform.position, targetLocation) < 2f)
                 {
                     Hunt();
                 }

@@ -413,7 +413,7 @@ Transform:
   m_GameObject: {fileID: 1207046012694738}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 57, y: 3, z: 21}
-  m_LocalScale: {x: 4, y: 8, z: 2}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4383571716153062}
   - {fileID: 4644590718917118}
@@ -639,15 +639,15 @@ MonoBehaviour:
   - {fileID: 1432918444654768}
   - {fileID: 1205559016830668}
   backRaycast:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1483494166815896}
+  - {fileID: 1578703493355938}
+  - {fileID: 1196442911647976}
+  - {fileID: 1365322138839580}
+  - {fileID: 1138261913580150}
+  - {fileID: 1587625283522332}
+  - {fileID: 1662859820971874}
+  - {fileID: 1953886056785528}
+  - {fileID: 1201138495558736}
   destination: {fileID: 0}
   patrolPoints:
   - {fileID: 0}
@@ -666,10 +666,15 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   currentPatrolPoint: 0
-  soundSensitivity: 50
+  soundSensitivity: 0.5
+  soundHeard: 0
   distanceToPlayer: 0
   targetLocation: {x: 0, y: 0, z: 0}
-  pauseTime: 3
+  playerSoundLevel: 0
+  time: 0
+  pauseTime: 300
+  huntingState: 0
+  chargingState: 0
 --- !u!195 &195571620963550378
 NavMeshAgent:
   m_ObjectHideFlags: 1
