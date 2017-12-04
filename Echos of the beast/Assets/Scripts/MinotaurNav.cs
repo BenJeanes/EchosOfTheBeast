@@ -85,8 +85,9 @@ public class MinotaurNav : MonoBehaviour
     {
         if (patrolPoints.Length > 0 && huntingState == false)
         {
+            navMeshAgent.speed = 5f;
             navMeshAgent.SetDestination(patrolPoints[currentPatrolPoint].transform.position);
-            if (transform.position == patrolPoints[currentPatrolPoint].transform.position || Vector3.Distance(transform.position, patrolPoints[currentPatrolPoint].transform.position) < 0.2f)
+            if (transform.position == patrolPoints[currentPatrolPoint].transform.position || Vector3.Distance(transform.position, patrolPoints[currentPatrolPoint].transform.position) < 2f)
             {
                 currentPatrolPoint++;
             }
@@ -202,7 +203,7 @@ public class MinotaurNav : MonoBehaviour
             {
                 //Start Hunting State
                 huntingState = true;
-                navMeshAgent.speed = 15;
+                navMeshAgent.speed = 15f;
 
                 targetLocation = playerLocation;
 
