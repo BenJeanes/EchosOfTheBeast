@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,32 +33,32 @@ public class MicrophoneInput : MonoBehaviour
             inputDevice = Microphone.devices[0];
             audioClip = Microphone.Start(inputDevice, true, 999, 44100);
         }
-        em = this.GetComponent<EchoManager>();
+        em = GetComponent<EchoManager>();
+        if(em != null)
+        {
+            Debug.Log(em.Proof);
+        }
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-        float incrementalMultiplier = 0.0005f;
+        //Set soundlevel equal to the normalised peak returned by MaxValue
+        soundLevel = MaxVolume();
 
-        //Get Returned Sound Level for the Light Object
-        normalizedMicrophoneInput = MaxVolume();
-        soundLevel = normalizedMicrophoneInput;
-        
-        if(soundLevel > 0.1)
+        if (soundLevel > 0.1)
         {
-            em.inputFromMicScript = soundLevel * multiplier;            
-        }
-
-        //If intensity is less than 0, stop reducing intensity
-        else if(intensity <= 0)
-        {
-            //Do nothing
-        }
-        //Slowly reduce the intensity variable
+            if (em != null)
+            {
+                em.SetLevel(soundLevel);
+            }                     
+        }        
         else
         {
-            em.inputFromMicScript = 0;
+            if (em != null)
+            {
+                em.SetLevel(0);
+            }
         }
 	}
 
