@@ -39,7 +39,8 @@ public class MinotaurNav : MonoBehaviour
     public bool soundHeard = false;
     public float distanceToPlayer;
     public Vector3 targetLocation;
-    public float playerSoundLevel;
+    private float playerSoundLevel;
+	public float soundLevel;
 
     //Hunting State Variables
     public float time;
@@ -212,13 +213,10 @@ public class MinotaurNav : MonoBehaviour
         //The sound level of the player from the minotaurs location
         //float soundLevel = playerSoundLevel * Vector3.Distance(transform.position, playerLocation);
 
-        float soundLevel = playerGO.GetComponentInChildren<MicrophoneInput>().SoundLevel * Vector3.Distance(transform.position, playerLocation);
-        Debug.Log("Minotaur hears this :: " + soundLevel);
+        soundLevel = playerGO.GetComponentInChildren<MicrophoneInput>().SoundLevel * Vector3.Distance(transform.position, playerLocation);
         //If the Sound Level is above the Minotaurs Sound Sensitivity AND the minotaur isnt charging OR if the Minotaur already has heard a sound AND isnt charging
         if (soundLevel >= soundSensitivity && chargingState == false || soundHeard == true && chargingState == false)
         {
-			Debug.Log("Heard You");
-		
             //If the minotaur hasnt already heard a sound
             if (soundHeard == false)
             {
@@ -231,7 +229,8 @@ public class MinotaurNav : MonoBehaviour
                 {
                     RaycastHit hit;
                     Physics.Raycast(position.transform.position, transform.TransformDirection(Vector3.forward), out hit);
-
+					Debug.Log("RaycastHit = " + hit);
+					
                     if (hit.collider.gameObject.name == "Player_Rig")
                     {
                         //Break and Charge
@@ -239,7 +238,7 @@ public class MinotaurNav : MonoBehaviour
                         break;
                     }
                 }
-
+				
                 foreach (GameObject position in backRaycast)
                 {
                     RaycastHit hit;
@@ -247,14 +246,13 @@ public class MinotaurNav : MonoBehaviour
 
                     if (hit.collider.gameObject.name == "Player_Rig")
                     {
-                        Debug.Log("I see you");
                         //Break and Charge
                         chargingState = true;
                         break;
                     }
                 }
             }
-
+			
             //Set the sound heard to true
             soundHeard = true;
 

@@ -55,7 +55,7 @@ public class MicrophoneInput : MonoBehaviour
         normalizedMicrophoneInput = MaxVolume();
         soundLevel = normalizedMicrophoneInput;
         //soundLevel = MaxVolume() * multiplier;
-        Debug.Log("SL from micinput = "+ SoundLevel);
+		
         if (soundLevel > 0.1)
         {
             if (em != null)
