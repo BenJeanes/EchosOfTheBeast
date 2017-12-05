@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,48 +17,49 @@ public class MicrophoneInput : MonoBehaviour
     int sampleWindow = 128;
     //Test Variable
     public float soundLevel;
-    //Test Light
-    public Light light;
     //Test Intensity
     private float intensity = 0;
     public float multiplier = 1;
+    public float volumeLimit = 0.7f;
+
+    public EchoManager em;
 
 	// Use this for initialization
 	void Start ()
     {
-		if(inputDevice == null)
+		if(inputDevice == null || Microphone.devices != null)
         {
+            Debug.Log(string.Format("{0} audio input devices connected", Microphone.devices.Length));
             inputDevice = Microphone.devices[0];
             audioClip = Microphone.Start(inputDevice, true, 999, 44100);
+        }
+        em = GetComponent<EchoManager>();
+        if(em != null)
+        {
+            Debug.Log(em.Proof);
         }
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-        normalizedMicrophoneInput = MaxVolume();
-        soundLevel = normalizedMicrophoneInput;
-        /*
-        if (intensity < soundLevel)
+        //Set soundlevel equal to the normalised peak returned by MaxValue
+        soundLevel = MaxVolume();
+
+        if (soundLevel > 0.1)
         {
-            intensity = soundLevel * 5;
-        }
+            if (em != null)
+            {
+                em.SetLevel(soundLevel);
+            }                     
+        }        
         else
         {
-            intensity -= 0.01f;
+            if (em != null)
+            {
+                em.SetLevel(0);
+            }
         }
-        */
-        if(soundLevel > 0.1)
-        {
-            intensity = soundLevel * multiplier;
-        }
-        else
-        {
-            intensity -= (intensity * 0.0005f) + 0.05f;
-        }
-
-
-        light.intensity = intensity;
 	}
 
     //Get a Normalised Volume Peak from the Sampled Audio Clip
@@ -86,7 +88,7 @@ public class MicrophoneInput : MonoBehaviour
             float wavePeak = clipSampleData[i] * clipSampleData[i];
             
             //If the volume isn't about a certain threshold
-            if(wavePeak < 0.01)
+            if(wavePeak < 0.001)
             {
                 wavePeak = 0;
             }
