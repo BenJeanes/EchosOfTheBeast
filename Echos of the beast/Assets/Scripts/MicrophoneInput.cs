@@ -16,48 +16,49 @@ public class MicrophoneInput : MonoBehaviour
     int sampleWindow = 128;
     //Test Variable
     public float soundLevel;
-    //Test Light
-    public Light light;
     //Test Intensity
     private float intensity = 0;
     public float multiplier = 1;
+    public float volumeLimit = 0.7f;
+
+    public EchoManager em;
 
 	// Use this for initialization
 	void Start ()
     {
-		if(inputDevice == null)
+		if(inputDevice == null || Microphone.devices != null)
         {
+            Debug.Log(string.Format("{0} audio input devices connected", Microphone.devices.Length));
             inputDevice = Microphone.devices[0];
             audioClip = Microphone.Start(inputDevice, true, 999, 44100);
         }
+        em = this.GetComponent<EchoManager>();
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
+        float incrementalMultiplier = 0.0005f;
+
+        //Get Returned Sound Level for the Light Object
         normalizedMicrophoneInput = MaxVolume();
         soundLevel = normalizedMicrophoneInput;
-        /*
-        if (intensity < soundLevel)
-        {
-            intensity = soundLevel * 5;
-        }
-        else
-        {
-            intensity -= 0.01f;
-        }
-        */
+        
         if(soundLevel > 0.1)
         {
-            intensity = soundLevel * multiplier;
+            em.inputFromMicScript = soundLevel * multiplier;            
         }
+
+        //If intensity is less than 0, stop reducing intensity
+        else if(intensity <= 0)
+        {
+            //Do nothing
+        }
+        //Slowly reduce the intensity variable
         else
         {
-            intensity -= (intensity * 0.0005f) + 0.05f;
+            em.inputFromMicScript = 0;
         }
-
-
-        light.intensity = intensity;
 	}
 
     //Get a Normalised Volume Peak from the Sampled Audio Clip
@@ -86,7 +87,7 @@ public class MicrophoneInput : MonoBehaviour
             float wavePeak = clipSampleData[i] * clipSampleData[i];
             
             //If the volume isn't about a certain threshold
-            if(wavePeak < 0.01)
+            if(wavePeak < 0.001)
             {
                 wavePeak = 0;
             }
