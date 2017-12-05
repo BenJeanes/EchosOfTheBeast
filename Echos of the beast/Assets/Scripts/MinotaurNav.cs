@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -47,6 +47,11 @@ public class MinotaurNav : MonoBehaviour
     //State
     public bool huntingState = false;
     public bool chargingState = false;
+	
+	//Sound Effects
+	public AudioClip roar;
+	public AudioClip footstep;
+	private AudioSource source;
 
 
     // Use this for initialization
@@ -54,6 +59,9 @@ public class MinotaurNav : MonoBehaviour
     {
         //Get References to the NavMeshAgent Component
         navMeshAgent = this.GetComponent<NavMeshAgent>();
+		
+		//Get Reference to the AudioSource Component
+		source = this.GetComponent<AudioSource>();
 
         //Assign the Reverse Patrol Points Array
         reversePatrolPoints = new GameObject[patrolPoints.Length];
@@ -83,7 +91,9 @@ public class MinotaurNav : MonoBehaviour
     //Play Footstep Audio
     private void Footstep()
     {
-
+		//Play Roar
+		source.clip = footstep;
+		source.Play();
     }
 
     //Patrol State
@@ -189,6 +199,10 @@ public class MinotaurNav : MonoBehaviour
             //If the minotaur hasnt already heard a sound
             if (soundHeard == false)
             {
+				//Play Roar
+				source.clip = roar;
+				source.Play();
+			
                 //Check if Sound Location (Location where player made the sound) is hit by the RayCasts before a wall (the player is in visual range/in the same corridor as the minotaur)
                 foreach (GameObject position in frontRaycast)
                 {
@@ -197,8 +211,6 @@ public class MinotaurNav : MonoBehaviour
 
                     if (hit.collider.gameObject.name == "Player_Rig")
                     {
-                        Debug.Log("I see you");
-
                         //Break and Charge
                         chargingState = true;
                         break;
