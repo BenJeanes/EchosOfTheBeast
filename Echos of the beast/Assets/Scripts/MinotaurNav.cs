@@ -71,6 +71,9 @@ public class MinotaurNav : MonoBehaviour
         {
             reversePatrolPoints[patrolPoints.Length - 1 - i] = patrolPoints[i];
         }
+		
+		//Start Footstep Noise
+		StartCoroutine(Footstep());
     }
 
     void Update()
@@ -81,20 +84,20 @@ public class MinotaurNav : MonoBehaviour
         //If the Minotaur doesn't hear anything, Patrol
         Patrol();
 
-        //Play Footstep Audio
-        Footstep();
-
         //If Player Spotted, Charge at them
         Charge();
     }
-
-    //Play Footstep Audio
-    private void Footstep()
-    {
-		//Play Roar
-		source.clip = footstep;
-		source.Play();
-    }
+	
+	IEnumerator Footstep()
+	{
+		while(true)
+		{
+			source.clip = footstep;
+			source.PlayOneShot(footstep);
+			
+			yield return new WaitForSeconds(3);
+		}
+	}
 
     //Patrol State
     private void Patrol()
@@ -181,8 +184,11 @@ public class MinotaurNav : MonoBehaviour
 
     private void ListenForSound()
     {
-        //What is the 0-1f value of the players microphone input
-        playerSoundLevel = MicrophoneInput.normalizedMicrophoneInput;
+		Debug.Log("Listening");
+		//What is the 0-1f value of the players microphone input
+        playerSoundLevel = MicrophoneInput.soundLevel;
+		Debug.Log("Player Sound Level From the Player: " + MicrophoneInput.soundLevel);
+		Debug.Log("Player Sound Level From the Minotaur: "+ playerSoundLevel);
 
         //The Vector3 location of the player
         Vector3 playerLocation = (GameObject.Find("Player_Rig")).transform.position;
@@ -196,6 +202,8 @@ public class MinotaurNav : MonoBehaviour
         //If the Sound Level is above the Minotaurs Sound Sensitivity AND the minotaur isnt charging OR if the Minotaur already has heard a sound AND isnt charging
         if (soundLevel >= soundSensitivity && chargingState == false || soundHeard == true && chargingState == false)
         {
+			Debug.Log("Heard You");
+		
             //If the minotaur hasnt already heard a sound
             if (soundHeard == false)
             {

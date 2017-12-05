@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +16,7 @@ public class MicrophoneInput : MonoBehaviour
     //Sample Rate
     int sampleWindow = 128;
     //Test Variable
-    public float soundLevel;
+    public static float soundLevel;
     //Test Intensity
     private float intensity = 0;
     public float multiplier = 1;
@@ -44,7 +44,7 @@ public class MicrophoneInput : MonoBehaviour
 	void Update ()
     {
         //Set soundlevel equal to the normalised peak returned by MaxValue
-        soundLevel = MaxVolume();
+        soundLevel = MaxVolume() * multiplier;
 
         if (soundLevel > 0.1)
         {
@@ -88,7 +88,7 @@ public class MicrophoneInput : MonoBehaviour
             float wavePeak = clipSampleData[i] * clipSampleData[i];
             
             //If the volume isn't about a certain threshold
-            if(wavePeak < 0.001)
+            if(wavePeak < 0.1)
             {
                 wavePeak = 0;
             }

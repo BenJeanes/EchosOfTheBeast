@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,7 +35,7 @@ public class EchoManager : MonoBehaviour
                 CreateEchoEffect(mousePosAtClick);
             }
         }
-        Debug.Log(inputFromMicScript);
+		
         if(inputFromMicScript > 0.1f && cd <= 0.0f)
         {
             CreateEchoEffect(this.transform.position, inputFromMicScript);
