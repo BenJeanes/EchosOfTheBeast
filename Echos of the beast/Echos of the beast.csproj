@@ -102,6 +102,7 @@
     <Compile Include="Assets\Echo Assets\BlindImageEffect.cs" />
     <Compile Include="Assets\Echo Assets\EchoImageEffect.cs" />
     <Compile Include="Assets\Echo Assets\EchoManager.cs" />
+    <Compile Include="Assets\FPController.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Icosphere FFT\Scripts\CameraControls.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Icosphere FFT\Scripts\IcoBumpin.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Misc\HueCube.cs" />
