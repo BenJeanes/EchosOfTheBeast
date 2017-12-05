@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class MinotaurNav : MonoBehaviour
 {
     //public variables
+    public GameObject playerGO;
 
     //Minotaurs Movement Speed
     private int movementSpeed = 9;
@@ -53,13 +54,13 @@ public class MinotaurNav : MonoBehaviour
 	public AudioClip footstep;
 	private AudioSource source;
 
-
     // Use this for initialization
     void Start()
     {
         //Get References to the NavMeshAgent Component
         navMeshAgent = this.GetComponent<NavMeshAgent>();
-		
+        playerGO = GameObject.Find("Player_Rig");
+        
 		//Get Reference to the AudioSource Component
 		source = this.GetComponent<AudioSource>();
 
@@ -78,6 +79,8 @@ public class MinotaurNav : MonoBehaviour
 
     void Update()
     {
+        //Debug.Log("SL in mino = " + playerGO.GetComponentInChildren<MicrophoneInput>().SoundLevel);
+        
         //Check for Player Sounds
         ListenForSound();
         
@@ -185,10 +188,20 @@ public class MinotaurNav : MonoBehaviour
     private void ListenForSound()
     {
 		Debug.Log("Listening");
-		//What is the 0-1f value of the players microphone input
-        playerSoundLevel = MicrophoneInput.soundLevel;
-		Debug.Log("Player Sound Level From the Player: " + MicrophoneInput.soundLevel);
-		Debug.Log("Player Sound Level From the Minotaur: "+ playerSoundLevel);
+
+        //if(playerGO != null)
+        //{
+        //    Debug.Log("Walalala:: " + playerGO.GetComponentInChildren<MicrophoneInput>().SoundLevel);
+        //}
+        //else
+        //{
+        //    Debug.Log("No playerGO");
+        //}
+
+        //What is the 0-1f value of the players microphone input
+        //playerSoundLevel = playerGO.GetComponentInChildren<MicrophoneInput>().SoundLevel;
+		//Debug.Log("Player Sound Level From the Player: " + MicrophoneInput.soundLevel);
+		//Debug.Log("Player Sound Level From the Minotaur: "+ playerSoundLevel);
 
         //The Vector3 location of the player
         Vector3 playerLocation = (GameObject.Find("Player_Rig")).transform.position;
@@ -197,8 +210,10 @@ public class MinotaurNav : MonoBehaviour
         distanceToPlayer = Vector3.Distance(transform.position, playerLocation);
 
         //The sound level of the player from the minotaurs location
-        float soundLevel = playerSoundLevel * Vector3.Distance(transform.position, playerLocation);
+        //float soundLevel = playerSoundLevel * Vector3.Distance(transform.position, playerLocation);
 
+        float soundLevel = playerGO.GetComponentInChildren<MicrophoneInput>().SoundLevel * Vector3.Distance(transform.position, playerLocation);
+        Debug.Log("Minotaur hears this :: " + soundLevel);
         //If the Sound Level is above the Minotaurs Sound Sensitivity AND the minotaur isnt charging OR if the Minotaur already has heard a sound AND isnt charging
         if (soundLevel >= soundSensitivity && chargingState == false || soundHeard == true && chargingState == false)
         {
