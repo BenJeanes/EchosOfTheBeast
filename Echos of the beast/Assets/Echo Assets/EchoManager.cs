@@ -13,9 +13,10 @@ public class EchoManager : MonoBehaviour
     Camera _cam;
 
     public float inputFromMicScript;
+    public float Proof = 5;
 
     private void Start()
-    {
+    {        
         _cam = GetComponent<Camera>();
     }
 
@@ -34,6 +35,7 @@ public class EchoManager : MonoBehaviour
                 CreateEchoEffect(mousePosAtClick);
             }
         }
+        Debug.Log(inputFromMicScript);
         if(inputFromMicScript > 0.1f && cd <= 0.0f)
         {
             CreateEchoEffect(this.transform.position, inputFromMicScript);
@@ -65,5 +67,10 @@ public class EchoManager : MonoBehaviour
         newEchoImageEffect.MaxRange = range * inputLevel;
         //Debug.Log(string.Format("{0} X {1} = {2}", range, inputLevel, range * inputLevel));
         newEchoImageEffect.Speed = speed;
+    }
+
+    public void SetLevel(float level)
+    {
+        inputFromMicScript = level;
     }
 }
