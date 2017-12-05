@@ -16,21 +16,23 @@ public class MicrophoneInput : MonoBehaviour
     int sampleWindow = 128;
     //Test Variable
     public float soundLevel;
-    //Test Light
-    public Light light;
     //Test Intensity
     private float intensity = 0;
     public float multiplier = 1;
     public float volumeLimit = 0.7f;
+
+    public EchoManager em;
 
 	// Use this for initialization
 	void Start ()
     {
 		if(inputDevice == null || Microphone.devices != null)
         {
+            Debug.Log(string.Format("{0} audio input devices connected", Microphone.devices.Length));
             inputDevice = Microphone.devices[0];
             audioClip = Microphone.Start(inputDevice, true, 999, 44100);
         }
+        em = this.GetComponent<EchoManager>();
 	}
 	
 	// Update is called once per frame
@@ -41,22 +43,10 @@ public class MicrophoneInput : MonoBehaviour
         //Get Returned Sound Level for the Light Object
         normalizedMicrophoneInput = MaxVolume();
         soundLevel = normalizedMicrophoneInput;
-
-        /*
-        if (intensity < soundLevel)
+        
+        if(soundLevel > 0.1)
         {
-            intensity = soundLevel * 5;
-        }
-        else
-        {
-            intensity -= 0.01f;
-        }
-        */
-
-        //If the Input Sound Level is higher than X threshold, the intensity variable becomes soundLevel (normalised between 0 and 1) times the base multiplier
-        if (soundLevel > (intensity/multiplier) || soundLevel > 0.1f)
-        {
-            intensity = soundLevel * multiplier;
+            em.inputFromMicScript = soundLevel * multiplier;            
         }
 
         //If intensity is less than 0, stop reducing intensity
@@ -67,18 +57,8 @@ public class MicrophoneInput : MonoBehaviour
         //Slowly reduce the intensity variable
         else
         {
-            intensity -= (intensity * incrementalMultiplier) + 0.005f;
+            em.inputFromMicScript = 0;
         }
-
-        if(intensity > volumeLimit)
-        {
-            intensity = volumeLimit;
-        }
-
-        Debug.Log("Final Intensity Value = " + intensity + ", Sound Level = " + soundLevel);
-        
-        //Set the intensity property to the Light Objects Intensity property
-        light.intensity = intensity;
 	}
 
     //Get a Normalised Volume Peak from the Sampled Audio Clip
