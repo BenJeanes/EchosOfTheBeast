@@ -72,16 +72,13 @@ public class MinotaurNav : MonoBehaviour
         for (int i = 0; i < patrolPoints.Length; i++)
         {
             reversePatrolPoints[patrolPoints.Length - 1 - i] = patrolPoints[i];
-        }
-		
+        }		
 		//Start Footstep Noise
 		StartCoroutine(Footstep());
     }
 
     void Update()
     {
-        //Debug.Log("SL in mino = " + playerGO.GetComponentInChildren<MicrophoneInput>().SoundLevel);
-        
         //Check for Player Sounds
         ListenForSound();
         
@@ -225,18 +222,18 @@ public class MinotaurNav : MonoBehaviour
 				source.Play();
 			
                 //Check if Sound Location (Location where player made the sound) is hit by the RayCasts before a wall (the player is in visual range/in the same corridor as the minotaur)
-                foreach (GameObject position in frontRaycast)
-                {
+                foreach (GameObject raycastOrigin in frontRaycast)
+                {                    
                     RaycastHit hit;
-                    Physics.Raycast(position.transform.position, transform.TransformDirection(Vector3.forward), out hit);
-					Debug.Log("RaycastHit = " + hit);
-					
-                    if (hit.collider.gameObject.name == "Player_Rig")
+                    Physics.Raycast(raycastOrigin.transform.position, transform.TransformDirection(Vector3.forward), out hit);
+                    if(hit.collider != null)
                     {
-                        //Break and Charge
-                        chargingState = true;
-                        break;
-                    }
+                        if(hit.collider.gameObject.name == "Player_Rig")
+                        {
+                            chargingState = true;
+                            break;
+                        }
+                    }					
                 }
 				
                 foreach (GameObject position in backRaycast)

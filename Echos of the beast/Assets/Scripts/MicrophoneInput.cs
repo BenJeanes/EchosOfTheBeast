@@ -33,11 +33,7 @@ public class MicrophoneInput : MonoBehaviour
             inputDevice = Microphone.devices[0];
             audioClip = Microphone.Start(inputDevice, true, 999, 44100);
         }
-        em = GetComponent<EchoManager>();
-        if(em != null)
-        {
-            Debug.Log(em.Proof);
-        }
+        em = GetComponent<EchoManager>();        
 	}
 	
     public float SoundLevel
