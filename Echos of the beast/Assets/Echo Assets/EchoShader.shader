@@ -85,18 +85,13 @@
 					half4 echoCol = half4(0, 0, 0, 0);					
 					
 					float dist = distance(wsPos, _WorldSpaceScannerPos);
-					if (dist < _EchoDistance && dist > _EchoDistance - _EchoWidth && linearDepth < 1)
+					if (dist < _EchoDistance && dist > _EchoDistance - _EchoWidth && linearDepth < 1 && _EchoDistance < _EchoRange)
 					{
 						/*float diff = 1 - (_EchoDistance - dist) / (_EchoWidth);
 						half4 edge = lerp(_MidCol, _LeadCol, pow(diff, _LeadSharpness));
 						echoCol = lerp(_RearCol, edge, diff);
 						echoCol *= diff;*/
-						echoCol = _MidCol;
-						/*if (_EchoDistance > _EchoRange)
-						{
-							float fade = _EchoDistance - _EchoRange;
-							echoCol.a -= fade;						
-						}*/
+						echoCol = _MidCol;						
 						echoCol.a = _Transparency;
 						return echoCol;
 					}

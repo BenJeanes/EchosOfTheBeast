@@ -55,6 +55,8 @@ public class MinotaurNav : MonoBehaviour
 	public AudioClip footstep;
 	private AudioSource source;
 
+    private float stepInterval = 1.5f;
+
     // Use this for initialization
     void Start()
     {
@@ -95,8 +97,10 @@ public class MinotaurNav : MonoBehaviour
 		{
 			source.clip = footstep;
 			source.PlayOneShot(footstep);
-			
-			yield return new WaitForSeconds(3);
+            playerGO.GetComponentInChildren<EchoManager>().CreateEchoEffect(this.transform.position, 0.5f);
+			yield return new WaitForSeconds(stepInterval);
+            playerGO.GetComponentInChildren<EchoManager>().CreateEchoEffect(this.transform.position, 0.5f);
+            yield return new WaitForSeconds(stepInterval);
 		}
 	}
 
@@ -108,7 +112,7 @@ public class MinotaurNav : MonoBehaviour
         {
             //Set Patrol Speed
             navMeshAgent.speed = 5f;
-
+            stepInterval = 1.5f;
             //Go to the next Patrol Point
             navMeshAgent.SetDestination(patrolPoints[currentPatrolPoint].transform.position);
 
@@ -180,26 +184,14 @@ public class MinotaurNav : MonoBehaviour
                 chargingState = false;
             }
         }
-
     }
 
     private void ListenForSound()
     {
-		Debug.Log("Listening");
-
-        //if(playerGO != null)
-        //{
-        //    Debug.Log("Walalala:: " + playerGO.GetComponentInChildren<MicrophoneInput>().SoundLevel);
-        //}
-        //else
-        //{
-        //    Debug.Log("No playerGO");
-        //}
+		Debug.Log("Listening");       
 
         //What is the 0-1f value of the players microphone input
         //playerSoundLevel = playerGO.GetComponentInChildren<MicrophoneInput>().SoundLevel;
-		//Debug.Log("Player Sound Level From the Player: " + MicrophoneInput.soundLevel);
-		//Debug.Log("Player Sound Level From the Minotaur: "+ playerSoundLevel);
 
         //The Vector3 location of the player
         Vector3 playerLocation = (GameObject.Find("Player_Rig")).transform.position;
@@ -225,7 +217,7 @@ public class MinotaurNav : MonoBehaviour
                 foreach (GameObject raycastOrigin in frontRaycast)
                 {                    
                     RaycastHit hit;
-                    Physics.Raycast(raycastOrigin.transform.position, transform.TransformDirection(Vector3.forward), out hit);
+                    Physics.Raycast(raycastOrigin.transform.position, transform.TransformDirection(Vector3.forward) * 10, out hit);
                     if(hit.collider != null)
                     {
                         if(hit.collider.gameObject.name == "Player_Rig")
@@ -236,18 +228,18 @@ public class MinotaurNav : MonoBehaviour
                     }					
                 }
 				
-                foreach (GameObject position in backRaycast)
-                {
-                    RaycastHit hit;
-                    Physics.Raycast(position.transform.position, transform.TransformDirection(Vector3.back), out hit);
+                //foreach (GameObject position in backRaycast)
+                //{
+                //    RaycastHit hit;
+                //    Physics.Raycast(position.transform.position, transform.TransformDirection(Vector3.back), out hit);
 
-                    if (hit.collider.gameObject.name == "Player_Rig")
-                    {
-                        //Break and Charge
-                        chargingState = true;
-                        break;
-                    }
-                }
+                //    if (hit.collider.gameObject.name == "Player_Rig")
+                //    {
+                //        //Break and Charge
+                //        chargingState = true;
+                //        break;
+                //    }
+                //}
             }
 			
             //Set the sound heard to true
@@ -261,7 +253,7 @@ public class MinotaurNav : MonoBehaviour
 
                 //Set hunting speed
                 navMeshAgent.speed = 15f;
-
+                stepInterval = 0.8f;
                 //Set target location as the location of the player when the sound was made
                 targetLocation = playerLocation;
 
