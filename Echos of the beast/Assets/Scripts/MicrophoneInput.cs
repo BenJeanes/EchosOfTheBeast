@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,19 +33,25 @@ public class MicrophoneInput : MonoBehaviour
             inputDevice = Microphone.devices[0];
             audioClip = Microphone.Start(inputDevice, true, 999, 44100);
         }
-        em = GetComponent<EchoManager>();
-        if(em != null)
-        {
-            Debug.Log(em.Proof);
-        }
+        em = GetComponent<EchoManager>();        
 	}
 	
+    public float SoundLevel
+    {
+        get
+        {
+            return soundLevel;
+        }
+    }
+
 	// Update is called once per frame
 	void Update ()
     {
         //Set soundlevel equal to the normalised peak returned by MaxValue
-        soundLevel = MaxVolume();
-
+        normalizedMicrophoneInput = MaxVolume();
+        soundLevel = normalizedMicrophoneInput;
+        //soundLevel = MaxVolume() * multiplier;
+		
         if (soundLevel > 0.1)
         {
             if (em != null)
@@ -88,7 +94,7 @@ public class MicrophoneInput : MonoBehaviour
             float wavePeak = clipSampleData[i] * clipSampleData[i];
             
             //If the volume isn't about a certain threshold
-            if(wavePeak < 0.001)
+            if(wavePeak < 0.1)
             {
                 wavePeak = 0;
             }
