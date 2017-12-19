@@ -5,7 +5,7 @@ using UnityEngine;
 public class EchoManager : MonoBehaviour
 {
     public Material effectMat;
-    [Range(0.5f, 5.0f)]
+    [Range(0.1f, 2.0f)]
     public float width = 1;
     public float speed = 10;
     public float sharpness = 10;
@@ -15,12 +15,18 @@ public class EchoManager : MonoBehaviour
     public float inputFromMicScript;
     public float Proof = 5;
 
+    public List<GlowingObject> glowers;
+
     private void Start()
     {        
         _cam = GetComponent<Camera>();
+        
     }
 
     float cd = 0.2f;
+
+    
+    
 
     void Update()
     {

@@ -114,6 +114,11 @@
     <Compile Include="Assets\Scripts\ControllerGrabObject.cs" />
     <Compile Include="Assets\Scripts\ControllerPlaceAnchor.cs" />
     <Compile Include="Assets\Scripts\GameState.cs" />
+    <Compile Include="Assets\Scripts\Glow\GlowComposite.cs" />
+    <Compile Include="Assets\Scripts\Glow\GlowController.cs" />
+    <Compile Include="Assets\Scripts\Glow\GlowingObject.cs" />
+    <Compile Include="Assets\Scripts\Glow\GlowObjectCmd.cs" />
+    <Compile Include="Assets\Scripts\Glow\GlowPrePass.cs" />
     <Compile Include="Assets\Scripts\LoadMain.cs" />
     <Compile Include="Assets\Scripts\MicrophoneInput.cs" />
     <Compile Include="Assets\Scripts\MinotaurNav.cs" />
@@ -246,6 +251,11 @@
     <None Include="Assets\ProCore\ProBuilder\Shader\pb_VertexPicker.shader" />
     <None Include="Assets\ProCore\ProBuilder\Shader\pb_VertexShader.shader" />
     <None Include="Assets\ProCore\ProBuilder\readme.txt" />
+    <None Include="Assets\Resources\Blur.shader" />
+    <None Include="Assets\Resources\GlowCmdShader.shader" />
+    <None Include="Assets\Resources\GlowComposite.shader" />
+    <None Include="Assets\Resources\GlowReplace.shader" />
+    <None Include="Assets\Resources\Standard-Glow.shader" />
     <None Include="Assets\SteamVR\InteractionSystem\Core\Shaders\SeeThru.shader" />
     <None Include="Assets\SteamVR\InteractionSystem\Core\Shaders\Silhouette.shader" />
     <None Include="Assets\SteamVR\InteractionSystem\Hints\Shaders\ControllerButtonHints.shader" />

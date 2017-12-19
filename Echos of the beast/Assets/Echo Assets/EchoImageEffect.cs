@@ -17,6 +17,15 @@ public class EchoImageEffect : MonoBehaviour
     [SerializeField]
     private float leadingEdgeSharpness;
 
+    EchoManager em;
+    bool scanning;
+
+    private void Awake()
+    {
+        em = GetComponent<EchoManager>();
+        scanning = true;
+    }
+
 
     private float distance;
 
@@ -80,10 +89,25 @@ public class EchoImageEffect : MonoBehaviour
     private void Update()
     {
         distance += Time.deltaTime * speed;
+        if(scanning)
+        {
+            foreach (GlowingObject g in em.glowers)
+            {
+                if (Vector3.Distance(origin, g.transform.position) <= distance)
+                {
+                    g.DoGlow();
+                }
+            }
+        }
     }
 
     private void EndEffect()
     {
+        scanning = false;
+        foreach (GlowingObject g in em.glowers)
+        {
+            g.EndGlow();
+        }
         Destroy(this);
     }
 
