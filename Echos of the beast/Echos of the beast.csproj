@@ -117,6 +117,7 @@
     <Compile Include="Assets\Scripts\LoadMain.cs" />
     <Compile Include="Assets\Scripts\MicrophoneInput.cs" />
     <Compile Include="Assets\Scripts\MinotaurNav.cs" />
+    <Compile Include="Assets\Scripts\TouchpadMovement.cs" />
     <Compile Include="Assets\Scripts\TurnOnRoof.cs" />
     <Compile Include="Assets\Scripts\ViveControllerInputTest.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_GazeTracker.cs" />
