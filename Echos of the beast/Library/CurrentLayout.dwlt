@@ -387,13 +387,14 @@ MonoBehaviour:
   m_LastFolders:
   - Assets/Scenes/Develop
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: C:\Users\sdavey2\Documents\EchosOfTheBeast\Echos of the beast
+  m_LastProjectPath: C:\Users\bjeanes\Documents\Repositories\EchosOfTheBeast\Echos
+    of the beast
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 08320000
-    m_LastClickedID: 12808
-    m_ExpandedIDs: 00000000c62d0000b23300001034000000ca9a3bffffff7f
+    m_SelectedIDs: 56290000
+    m_LastClickedID: 10582
+    m_ExpandedIDs: 000000002428000034280000e42c00005c2e0000c22e0000f62e000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -421,7 +422,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000c62d0000b2330000
+    m_ExpandedIDs: 0000000024280000e42c00005c2e0000c22e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -449,7 +450,7 @@ MonoBehaviour:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: c6230000
+    m_ExpandedInstanceIDs: c62300005e2e0000062f0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -537,9 +538,9 @@ MonoBehaviour:
     height: 726
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 
-    m_LastClickedID: 0
-    m_ExpandedIDs: 30ceefff06cfefffd6d0efffead0effff2d0efffba30f0ff9031f0ff6033f0ff7433f0ff7c33f0ff8614f1ff9817f1ff641df1ff5021f1ff44c4f7ff4ccaf7ffd4eeffffd6eeffffa0f6ffff00000000d2350000304a00000c4b00005a9300007ea900001caa0000
+    m_SelectedIDs: 14610000
+    m_LastClickedID: 24852
+    m_ExpandedIDs: f853f6ff98f2fcff50f5fcffb4f9fcff8c0bfeffda15feffd4fbffffd6fbffff12fcffff18fcffff00000000ac460000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -589,14 +590,14 @@ MonoBehaviour:
     width: 1607
     height: 726
   m_SceneLighting: 0
-  lastFramingTime: 2396.102290028169
+  lastFramingTime: 5288.725693048512
   m_2DMode: 0
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 32.88086, y: 20.630997, z: -16.843918}
+    m_Target: {x: 40.401943, y: -28.30285, z: -22.096296}
     speed: 2
-    m_Value: {x: 32.88086, y: 20.630997, z: -16.843918}
+    m_Value: {x: 40.401943, y: -28.30285, z: -22.096296}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -619,13 +620,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: -0.004701786, y: -0.9375929, z: 0.3474722, w: -0.01267181}
+    m_Target: {x: 0.0021046088, y: -0.7697107, z: 0.63838434, w: 0.0025384312}
     speed: 2
-    m_Value: {x: -0.004701786, y: -0.9375929, z: 0.3474722, w: -0.01267181}
+    m_Value: {x: 0.0021046088, y: -0.7697107, z: 0.63838434, w: 0.0025384312}
   m_Size:
-    m_Target: 21.217634
+    m_Target: 40.41739
     speed: 2
-    m_Value: 21.217634
+    m_Value: 40.41739
   m_Ortho:
     m_Target: 0
     speed: 2

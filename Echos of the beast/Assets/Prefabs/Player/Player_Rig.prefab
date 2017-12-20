@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 54219968217065516}
   - component: {fileID: 65428851236247752}
   - component: {fileID: 114617702043181368}
-  - component: {fileID: 114497356142034536}
+  - component: {fileID: 114483303444324054}
   m_Layer: 0
   m_Name: Player_Rig
   m_TagString: Player
@@ -81,6 +81,7 @@ GameObject:
   - component: {fileID: 114338944567046536}
   - component: {fileID: 114453167319935454}
   - component: {fileID: 114345507068790392}
+  - component: {fileID: 114315849415720912}
   m_Layer: 0
   m_Name: Controller (right)
   m_TagString: Untagged
@@ -148,6 +149,7 @@ GameObject:
   - component: {fileID: 114653298270595870}
   - component: {fileID: 114363951765130676}
   - component: {fileID: 114088355066529218}
+  - component: {fileID: 114565268832508386}
   m_Layer: 0
   m_Name: Controller (left)
   m_TagString: Untagged
@@ -165,9 +167,9 @@ GameObject:
   - component: {fileID: 4499079571435778}
   - component: {fileID: 20934453336987824}
   - component: {fileID: 124293728530643576}
-  - component: {fileID: 114616321118530230}
   - component: {fileID: 114450539714054606}
   - component: {fileID: 114764116369977224}
+  - component: {fileID: 114867896267896214}
   m_Layer: 0
   m_Name: Camera (eye)
   m_TagString: MainCamera
@@ -295,8 +297,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1182485969962598}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 40.48, y: 7.001, z: -18.92}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 40.48, y: 7.001, z: -15.509}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4962078424723960}
@@ -305,7 +307,7 @@ Transform:
   - {fileID: 4205083632641618}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4610960263337266
 Transform:
   m_ObjectHideFlags: 1
@@ -706,6 +708,18 @@ MonoBehaviour:
   right: {fileID: 1235596809774092}
   objects: []
   assignAllBeforeIdentified: 0
+--- !u!114 &114315849415720912
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1235596809774092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7bb2ec815a997945a8b3d8ba996c6cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRig: {fileID: 4609509237826360}
 --- !u!114 &114338944567046536
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -774,7 +788,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lighting: {fileID: 0}
---- !u!114 &114497356142034536
+--- !u!114 &114483303444324054
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -787,8 +801,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GithubProjectAndDocs: https://github.com/ElectricNightOwl/ArmSwinger
   generalScaleWorldUnitsToCameraRigScale: 0
-  generalAutoAdjustFixedTimestep: 1
-  armSwingNavigation: 1
+  generalAutoAdjustFixedTimestep: 0
+  armSwingNavigation: 0
   _armSwingButton: 1
   _armSwingMode: 3
   armSwingControllerToMovementCurve:
@@ -875,6 +889,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vrcam: {fileID: 0}
+--- !u!114 &114565268832508386
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1480575865843640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7bb2ec815a997945a8b3d8ba996c6cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRig: {fileID: 4609509237826360}
 --- !u!114 &114582828075671956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -892,20 +918,6 @@ MonoBehaviour:
   verbose: 0
   createComponents: 1
   updateDynamically: 1
---- !u!114 &114616321118530230
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1855749547959180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bca9ccf900ccc84c887d783321d27e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _head: {fileID: 4341146693385808}
-  _ears: {fileID: 4610960263337266}
-  wireframe: 0
 --- !u!114 &114617702043181368
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -943,6 +955,20 @@ MonoBehaviour:
   multiplier: 1
   volumeLimit: 0.7
   em: {fileID: 0}
+--- !u!114 &114867896267896214
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1855749547959180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bca9ccf900ccc84c887d783321d27e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _head: {fileID: 4341146693385808}
+  _ears: {fileID: 4610960263337266}
+  wireframe: 0
 --- !u!114 &114907982187715600
 MonoBehaviour:
   m_ObjectHideFlags: 1
