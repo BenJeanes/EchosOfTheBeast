@@ -54,6 +54,7 @@
      <Compile Include="Assets\Echo Assets\BlindImageEffect.cs" />
      <Compile Include="Assets\Echo Assets\EchoImageEffect.cs" />
      <Compile Include="Assets\Echo Assets\EchoManager.cs" />
+     <Compile Include="Assets\GameStateManager.cs" />
      <Compile Include="Assets\ProCore\ProBuilder\API Examples\Icosphere FFT\Scripts\CameraControls.cs" />
      <Compile Include="Assets\ProCore\ProBuilder\API Examples\Icosphere FFT\Scripts\IcoBumpin.cs" />
      <Compile Include="Assets\ProCore\ProBuilder\API Examples\Misc\HueCube.cs" />
@@ -64,8 +65,11 @@
      <Compile Include="Assets\Scripts\ArmSwinger\HeadsetCollider.cs" />
      <Compile Include="Assets\Scripts\ControllerGrabObject.cs" />
      <Compile Include="Assets\Scripts\ControllerPlaceAnchor.cs" />
+     <Compile Include="Assets\Scripts\GameState.cs" />
+     <Compile Include="Assets\Scripts\LoadMain.cs" />
      <Compile Include="Assets\Scripts\MicrophoneInput.cs" />
      <Compile Include="Assets\Scripts\MinotaurNav.cs" />
+     <Compile Include="Assets\Scripts\TouchpadMovement.cs" />
      <Compile Include="Assets\Scripts\TurnOnRoof.cs" />
      <Compile Include="Assets\Scripts\ViveControllerInputTest.cs" />
      <Compile Include="Assets\SteamVR\Extras\SteamVR_GazeTracker.cs" />
