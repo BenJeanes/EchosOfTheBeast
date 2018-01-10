@@ -9,7 +9,7 @@ public class MinotaurNav : MonoBehaviour
     public GameObject playerGO;
 
     //Minotaurs Movement Speed
-    private int movementSpeed = 9;
+    private float movementSpeed = 1.5f;
 
     //Array of Front Raycast Positions
     [SerializeField]
@@ -111,7 +111,7 @@ public class MinotaurNav : MonoBehaviour
         if (patrolPoints.Length > 0 && huntingState == false)
         {
             //Set Patrol Speed
-            navMeshAgent.speed = 5f;
+            navMeshAgent.speed = 1.5f;
             stepInterval = 1.5f;
             //Go to the next Patrol Point
             navMeshAgent.SetDestination(patrolPoints[currentPatrolPoint].transform.position);
@@ -169,7 +169,7 @@ public class MinotaurNav : MonoBehaviour
             Vector3 playerLocation = (GameObject.Find("Player_Rig")).transform.position;
 
             //Set Charge Speed
-            navMeshAgent.speed = 30;
+            navMeshAgent.speed = 1.5f;
 
             //Set target location = to the players location when charging started
             targetLocation = playerLocation;
