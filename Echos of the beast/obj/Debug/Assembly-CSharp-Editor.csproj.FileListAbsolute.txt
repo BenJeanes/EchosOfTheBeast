@@ -62,3 +62,4 @@ F:\DPD_Projects\EchosOfTheBeast\Echos of the beast\Temp\bin\Debug\UnityEditor.iO
 F:\DPD_Projects\EchosOfTheBeast\Echos of the beast\obj\Debug\Assembly-CSharp-Editor.csprojResolveAssemblyReference.cache
 F:\DPD_Projects\EchosOfTheBeast\Echos of the beast\obj\Debug\Assembly-CSharp-Editor.dll
 F:\DPD_Projects\EchosOfTheBeast\Echos of the beast\obj\Debug\Assembly-CSharp-Editor.pdb
+F:\DPD_Projects\EchosOfTheBeast\Echos of the beast\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
