@@ -55,7 +55,7 @@ public class MinotaurNav : MonoBehaviour
 	public AudioClip footstep;
 	private AudioSource source;
 
-    private float stepInterval = 1.5f;
+    public float stepInterval = 3.0f;
 
     // Use this for initialization
     void Start()
@@ -97,9 +97,6 @@ public class MinotaurNav : MonoBehaviour
 		{
 			source.clip = footstep;
 			source.PlayOneShot(footstep);
-            playerGO.GetComponentInChildren<EchoManager>().CreateEchoEffect(this.transform.position, 0.5f);
-			yield return new WaitForSeconds(stepInterval);
-            playerGO.GetComponentInChildren<EchoManager>().CreateEchoEffect(this.transform.position, 0.5f);
             yield return new WaitForSeconds(stepInterval);
 		}
 	}
@@ -112,7 +109,6 @@ public class MinotaurNav : MonoBehaviour
         {
             //Set Patrol Speed
             navMeshAgent.speed = 1.5f;
-            stepInterval = 1.5f;
             //Go to the next Patrol Point
             navMeshAgent.SetDestination(patrolPoints[currentPatrolPoint].transform.position);
 
