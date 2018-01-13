@@ -21,6 +21,7 @@ public class GameState : MonoBehaviour {
     {
         if(collision.gameObject.tag == "Minotaur")
         {
+            Debug.Log("OUCH");
             SceneManager.LoadScene("LoseScreen");
         }
         else if (collision.gameObject.tag == "Stairs")
