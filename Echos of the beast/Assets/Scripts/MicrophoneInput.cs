@@ -16,7 +16,7 @@ public class MicrophoneInput : MonoBehaviour
     //Sample Rate
     int sampleWindow = 128;
     //Test Variable
-    public static float soundLevel;
+    public float soundLevel;
     //Test Intensity
     private float intensity = 0;
     public float multiplier = 1;
@@ -33,19 +33,25 @@ public class MicrophoneInput : MonoBehaviour
             inputDevice = Microphone.devices[0];
             audioClip = Microphone.Start(inputDevice, true, 999, 44100);
         }
-        em = GetComponent<EchoManager>();
-        if(em != null)
-        {
-            Debug.Log(em.Proof);
-        }
+        em = GetComponent<EchoManager>();        
 	}
 	
+    public float SoundLevel
+    {
+        get
+        {
+            return soundLevel;
+        }
+    }
+
 	// Update is called once per frame
 	void Update ()
     {
         //Set soundlevel equal to the normalised peak returned by MaxValue
-        soundLevel = MaxVolume() * multiplier;
-
+        normalizedMicrophoneInput = MaxVolume();
+        soundLevel = normalizedMicrophoneInput;
+        //soundLevel = MaxVolume() * multiplier;
+		
         if (soundLevel > 0.1)
         {
             if (em != null)

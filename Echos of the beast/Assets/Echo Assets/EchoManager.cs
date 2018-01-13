@@ -5,7 +5,7 @@ using UnityEngine;
 public class EchoManager : MonoBehaviour
 {
     public Material effectMat;
-    [Range(0.5f, 5.0f)]
+    [Range(0.1f, 5.0f)]
     public float width = 1;
     public float speed = 10;
     public float sharpness = 10;
@@ -65,7 +65,6 @@ public class EchoManager : MonoBehaviour
         newEchoImageEffect.Width = width;
         newEchoImageEffect.LeadingEdgeSharpness = sharpness;
         newEchoImageEffect.MaxRange = range * inputLevel;
-        //Debug.Log(string.Format("{0} X {1} = {2}", range, inputLevel, range * inputLevel));
         newEchoImageEffect.Speed = speed;
     }
 
