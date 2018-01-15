@@ -13,6 +13,8 @@ public class ViveControllerInputTest : MonoBehaviour {
         }
     }
 
+    public Light lighting;
+
     private void Awake()
     {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
@@ -27,10 +29,18 @@ public class ViveControllerInputTest : MonoBehaviour {
         if (controller.GetHairTriggerDown())
         {
             Debug.Log(gameObject.name + " Trigger Press");
+            if(lighting != null)
+            {
+                lighting.gameObject.SetActive(true);
+            }
         }        
         if (controller.GetHairTriggerUp())
         {
             Debug.Log(gameObject.name + " Trigger Release");
+            if (lighting != null)
+            {
+                lighting.gameObject.SetActive(false);
+            }
         }        
         if (controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
         {
