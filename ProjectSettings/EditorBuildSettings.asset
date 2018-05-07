@@ -5,6 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/testSceneWithMonster.unity
+  - enabled: 0
+    path: 
     guid: 3db770ffd0dbca14686bf74bccd2a551
+  - enabled: 1
+    path: Assets/Scenes/Develop/MainLevel.unity
+    guid: 42bab482a9f9d0948ae45c39311c1a08
+  - enabled: 1
+    path: Assets/Scenes/Develop/LoseScreen.unity
+    guid: 4669405d0c1a31f429c26d2d4b52b6b2
+  - enabled: 1
+    path: Assets/Scenes/Develop/WinScreen.unity
+    guid: cf77968faeac99346a8f600f0d7a9fcd

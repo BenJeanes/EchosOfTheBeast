@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -6,9 +6,10 @@ using UnityEngine.AI;
 public class MinotaurNav : MonoBehaviour
 {
     //public variables
+    public GameObject playerGO;
 
     //Minotaurs Movement Speed
-    private int movementSpeed = 9;
+    private float movementSpeed = 1.5f;
 
     //Array of Front Raycast Positions
     [SerializeField]
@@ -38,7 +39,8 @@ public class MinotaurNav : MonoBehaviour
     public bool soundHeard = false;
     public float distanceToPlayer;
     public Vector3 targetLocation;
-    public float playerSoundLevel;
+    private float playerSoundLevel;
+	public float soundLevel;
 
     //Hunting State Variables
     public float time;
@@ -47,13 +49,23 @@ public class MinotaurNav : MonoBehaviour
     //State
     public bool huntingState = false;
     public bool chargingState = false;
+	
+	//Sound Effects
+	public AudioClip roar;
+	public AudioClip footstep;
+	private AudioSource source;
 
+    public float stepInterval = 3.0f;
 
     // Use this for initialization
     void Start()
     {
         //Get References to the NavMeshAgent Component
         navMeshAgent = this.GetComponent<NavMeshAgent>();
+        playerGO = GameObject.Find("Player_Rig");
+        
+		//Get Reference to the AudioSource Component
+		source = this.GetComponent<AudioSource>();
 
         //Assign the Reverse Patrol Points Array
         reversePatrolPoints = new GameObject[patrolPoints.Length];
@@ -62,7 +74,9 @@ public class MinotaurNav : MonoBehaviour
         for (int i = 0; i < patrolPoints.Length; i++)
         {
             reversePatrolPoints[patrolPoints.Length - 1 - i] = patrolPoints[i];
-        }
+        }		
+		//Start Footstep Noise
+		StartCoroutine(Footstep());
     }
 
     void Update()
@@ -73,18 +87,19 @@ public class MinotaurNav : MonoBehaviour
         //If the Minotaur doesn't hear anything, Patrol
         Patrol();
 
-        //Play Footstep Audio
-        Footstep();
-
         //If Player Spotted, Charge at them
         Charge();
     }
-
-    //Play Footstep Audio
-    private void Footstep()
-    {
-
-    }
+	
+	IEnumerator Footstep()
+	{
+		while(true)
+		{
+			source.clip = footstep;
+			source.PlayOneShot(footstep);
+            yield return new WaitForSeconds(stepInterval);
+		}
+	}
 
     //Patrol State
     private void Patrol()
@@ -93,8 +108,7 @@ public class MinotaurNav : MonoBehaviour
         if (patrolPoints.Length > 0 && huntingState == false)
         {
             //Set Patrol Speed
-            navMeshAgent.speed = 5f;
-
+            navMeshAgent.speed = 1.5f;
             //Go to the next Patrol Point
             navMeshAgent.SetDestination(patrolPoints[currentPatrolPoint].transform.position);
 
@@ -151,7 +165,7 @@ public class MinotaurNav : MonoBehaviour
             Vector3 playerLocation = (GameObject.Find("Player_Rig")).transform.position;
 
             //Set Charge Speed
-            navMeshAgent.speed = 30;
+            navMeshAgent.speed = 1.5f;
 
             //Set target location = to the players location when charging started
             targetLocation = playerLocation;
@@ -166,13 +180,14 @@ public class MinotaurNav : MonoBehaviour
                 chargingState = false;
             }
         }
-
     }
 
     private void ListenForSound()
     {
+		Debug.Log("Listening");       
+
         //What is the 0-1f value of the players microphone input
-        playerSoundLevel = MicrophoneInput.normalizedMicrophoneInput;
+        //playerSoundLevel = playerGO.GetComponentInChildren<MicrophoneInput>().SoundLevel;
 
         //The Vector3 location of the player
         Vector3 playerLocation = (GameObject.Find("Player_Rig")).transform.position;
@@ -181,45 +196,48 @@ public class MinotaurNav : MonoBehaviour
         distanceToPlayer = Vector3.Distance(transform.position, playerLocation);
 
         //The sound level of the player from the minotaurs location
-        float soundLevel = playerSoundLevel * Vector3.Distance(transform.position, playerLocation);
+        //float soundLevel = playerSoundLevel * Vector3.Distance(transform.position, playerLocation);
 
+        soundLevel = playerGO.GetComponentInChildren<MicrophoneInput>().SoundLevel * Vector3.Distance(transform.position, playerLocation);
         //If the Sound Level is above the Minotaurs Sound Sensitivity AND the minotaur isnt charging OR if the Minotaur already has heard a sound AND isnt charging
         if (soundLevel >= soundSensitivity && chargingState == false || soundHeard == true && chargingState == false)
         {
             //If the minotaur hasnt already heard a sound
             if (soundHeard == false)
             {
+				//Play Roar
+				source.clip = roar;
+				source.Play();
+			
                 //Check if Sound Location (Location where player made the sound) is hit by the RayCasts before a wall (the player is in visual range/in the same corridor as the minotaur)
-                foreach (GameObject position in frontRaycast)
-                {
+                foreach (GameObject raycastOrigin in frontRaycast)
+                {                    
                     RaycastHit hit;
-                    Physics.Raycast(position.transform.position, transform.TransformDirection(Vector3.forward), out hit);
-
-                    if (hit.collider.gameObject.name == "Player_Rig")
+                    Physics.Raycast(raycastOrigin.transform.position, transform.TransformDirection(Vector3.forward) * 10, out hit);
+                    if(hit.collider != null)
                     {
-                        Debug.Log("I see you");
-
-                        //Break and Charge
-                        chargingState = true;
-                        break;
-                    }
+                        if(hit.collider.gameObject.name == "Player_Rig")
+                        {
+                            chargingState = true;
+                            break;
+                        }
+                    }					
                 }
+				
+                //foreach (GameObject position in backRaycast)
+                //{
+                //    RaycastHit hit;
+                //    Physics.Raycast(position.transform.position, transform.TransformDirection(Vector3.back), out hit);
 
-                foreach (GameObject position in backRaycast)
-                {
-                    RaycastHit hit;
-                    Physics.Raycast(position.transform.position, transform.TransformDirection(Vector3.back), out hit);
-
-                    if (hit.collider.gameObject.name == "Player_Rig")
-                    {
-                        Debug.Log("I see you");
-                        //Break and Charge
-                        chargingState = true;
-                        break;
-                    }
-                }
+                //    if (hit.collider.gameObject.name == "Player_Rig")
+                //    {
+                //        //Break and Charge
+                //        chargingState = true;
+                //        break;
+                //    }
+                //}
             }
-
+			
             //Set the sound heard to true
             soundHeard = true;
 
@@ -231,7 +249,7 @@ public class MinotaurNav : MonoBehaviour
 
                 //Set hunting speed
                 navMeshAgent.speed = 15f;
-
+                stepInterval = 0.8f;
                 //Set target location as the location of the player when the sound was made
                 targetLocation = playerLocation;
 

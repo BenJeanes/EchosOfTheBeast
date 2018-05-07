@@ -34,3 +34,8 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+Library/
+
+Test_Data/boot\.config
+
+Echos of the beast/Assets/SteamVR/Scripts/SteamVR_Camera\.cs
