@@ -74,12 +74,19 @@ public class EchoImageEffect : MonoBehaviour
     {
         _cam = GetComponent<Camera>();
         _cam.depthTextureMode = DepthTextureMode.Depth;
-        Invoke("EndEffect", 2);
+        origin = transform.position;
+        //Invoke("EndEffect", 2);
     }
 
     private void Update()
     {
         distance += Time.deltaTime * speed;
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            
+            distance = 0;
+        }
+        origin = this.transform.position;
     }
 
     private void EndEffect()

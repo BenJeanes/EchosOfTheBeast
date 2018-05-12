@@ -75,8 +75,8 @@
 
 				half4 frag(VertOut i) : SV_Target
 				{
-					half4 col = tex2D(_MainTex, i.uv);
-					
+					/*half4 col = tex2D(_MainTex, i.uv);
+					col = half4(0, 0, 0, 0);
 					float rawDepth = DecodeFloatRG(tex2D(_CameraDepthTexture, i.uv_depth));
 					float linearDepth = Linear01Depth(rawDepth);
 					float4 wsDir = linearDepth * i.interpolatedRay;
@@ -87,16 +87,41 @@
 					float dist = distance(wsPos, _WorldSpaceScannerPos);
 					if (dist < _EchoDistance && dist > _EchoDistance - _EchoWidth && linearDepth < 1 && _EchoDistance < _EchoRange)
 					{
-						/*float diff = 1 - (_EchoDistance - dist) / (_EchoWidth);
+						float diff = 1 - (_EchoDistance - dist) / (_EchoWidth);
 						half4 edge = lerp(_MidCol, _LeadCol, pow(diff, _LeadSharpness));
 						echoCol = lerp(_RearCol, edge, diff);
-						echoCol *= diff;*/
+						echoCol *= diff;
 						echoCol = _MidCol;						
 						echoCol.a = _Transparency;
 						return echoCol;
 					}
-					
-					return col;
+					else
+					{
+						return col;
+					}	*/
+					float rawDepth = DecodeFloatRG(tex2D(_CameraDepthTexture, i.uv_depth));
+					float linearDepth = Linear01Depth(rawDepth);
+					float4 wsDir = linearDepth * i.interpolatedRay;
+					float3 wsPos = _WorldSpaceCameraPos + wsDir;
+
+					half4 col = half4(1, 1, 1, 1);
+
+					half4 col2 = half4(0,0,0,1);
+
+
+					half4 textureCol = tex2D(_MainTex, i.uv);
+					return textureCol;
+					float dist = distance(wsPos, _WorldSpaceScannerPos);
+
+
+					if (dist < _EchoDistance && _EchoDistance - _EchoWidth < dist && linearDepth < 1)
+					{
+						return col;
+					}
+					else
+					{
+						return col2;
+					}
 				}
 			ENDCG
 		}

@@ -26,14 +26,15 @@ public class EchoManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Vector4 mousePosAtClick;
-            Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                mousePosAtClick = hit.point;
-                CreateEchoEffect(mousePosAtClick);
-            }
+            //Vector4 mousePosAtClick;
+            //Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
+            //RaycastHit hit;
+            //if (Physics.Raycast(ray, out hit))
+            //{
+            //    mousePosAtClick = hit.point;
+            //    CreateEchoEffect(mousePosAtClick);
+            //}
+            CreateEchoEffect(this.transform.position);
         }
 		
         if(inputFromMicScript > 0.1f && cd <= 0.0f)
