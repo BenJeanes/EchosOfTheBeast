@@ -28,8 +28,7 @@
 			half4 _EdgeColor;
 			half4 _MainColor;
 			half _BgFade;
-			half _SampleDistance;
-			float _Exponent;
+			half _SampleDistance;			
 
 			float _Threshold;
 			float _Timestep;
@@ -103,7 +102,6 @@
 				{
 					if (edge > 0)
 					{
-						//return lerp(tex2D(_MainTex, i.uv[0].xy), _MainColor, _BgFade);
 						if (dist < _Distance && _Distance - (_BarWidth / 10) < dist)
 						{
 							return 1;

@@ -347,7 +347,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 257162288}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &257162293
 Transform:
   m_ObjectHideFlags: 0
@@ -1373,18 +1373,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51006c37e83d2f44f84886b9116b2287, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mode: 1
   sensitivityDepth: 1
   sensitivityNormals: 1
-  lumThreshold: 0.2
-  edgeExp: 1
   sampleDist: 1
   edgesOnly: 1
   edgesOnlyBgColor: {r: 1, g: 1, b: 1, a: 1}
   mainColor: {r: 0, g: 0, b: 0, a: 1}
   timeStep: 20
   width: 15
-  distance: 561.5764
+  distance: 817.94995
   edgeDetectShader: {fileID: 4800000, guid: cc052d6dc3d3f46419510387a307ebab, type: 3}
 --- !u!1 &1159096240
 GameObject:

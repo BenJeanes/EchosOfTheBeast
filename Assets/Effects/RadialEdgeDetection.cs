@@ -5,26 +5,13 @@ namespace UnityStandardAssets.ImageEffects
 {
     [ExecuteInEditMode]
     [RequireComponent(typeof(Camera))]
-    [AddComponentMenu("Image Effects/Edge Detection/Edge Detection")]
-    public class CustomEditorTest : PostEffectsBase
+    [AddComponentMenu("Image Effects/Edge Detection")]
+    public class RadialEdgeDetection : PostEffectsBase
     {
+        private Camera _cam;       
 
-        private Camera _cam;
-
-        public enum EdgeDetectMode
-        {
-            TriangleDepthNormals = 0,
-            RobertsCrossDepthNormals = 1,
-            SobelDepth = 2,
-            SobelDepthThin = 3,
-            TriangleLuminance = 4,
-        }
-
-        public EdgeDetectMode mode = EdgeDetectMode.SobelDepthThin;
         public float sensitivityDepth = 1.0f;
         public float sensitivityNormals = 1.0f;
-        public float lumThreshold = 0.2f;
-        public float edgeExp = 1.0f;
         public float sampleDist = 1.0f;
         public float edgesOnly = 0.0f;
         public Color edgesOnlyBgColor = Color.white;
@@ -35,34 +22,19 @@ namespace UnityStandardAssets.ImageEffects
         
         public Shader edgeDetectShader;
         private Material edgeDetectMaterial = null;
-        private EdgeDetectMode oldMode = EdgeDetectMode.SobelDepthThin;
 
         public override bool CheckResources()
         {
             CheckSupport(true);
             edgeDetectMaterial = CheckShaderAndCreateMaterial(edgeDetectShader, edgeDetectMaterial);
-            if (mode != oldMode)
-                SetCameraFlag();
-            oldMode = mode;
-            if (!isSupported)
-                ReportAutoDisable();
             return isSupported;
         }
 
         new void Start()
         {
             _cam = this.GetComponent<Camera>();
-            //_cam.depthTextureMode = DepthTextureMode.Depth;
-            oldMode = mode;
-        }       
-
-        void SetCameraFlag()
-        {
-            if (mode == EdgeDetectMode.SobelDepth || mode == EdgeDetectMode.SobelDepthThin)
-                GetComponent<Camera>().depthTextureMode |= DepthTextureMode.Depth;
-            else if (mode == EdgeDetectMode.TriangleDepthNormals || mode == EdgeDetectMode.RobertsCrossDepthNormals)
-                GetComponent<Camera>().depthTextureMode |= DepthTextureMode.DepthNormals;
-        }
+            _cam.depthTextureMode |= DepthTextureMode.DepthNormals;
+        }             
 
         void Update()
         {
@@ -71,13 +43,6 @@ namespace UnityStandardAssets.ImageEffects
             {
                 distance = 0;
             }
-        }
-
-        
-
-        void OnEnable()
-        {
-            SetCameraFlag();
         }
 
         [ImageEffectOpaque]
@@ -97,15 +62,11 @@ namespace UnityStandardAssets.ImageEffects
             edgeDetectMaterial.SetFloat("_SampleDistance", sampleDist);
             edgeDetectMaterial.SetVector("_EdgeColor", edgesOnlyBgColor);
             edgeDetectMaterial.SetVector("_MainColor", mainColor);
-            edgeDetectMaterial.SetFloat("_Exponent", edgeExp);
-            edgeDetectMaterial.SetFloat("_Threshold", lumThreshold);
             edgeDetectMaterial.SetFloat("_Timestep", timeStep);
             edgeDetectMaterial.SetFloat("_BarWidth", width);            
             edgeDetectMaterial.SetFloat("_Distance", distance);
-            //Graphics.Blit(source, destination, edgeDetectMaterial,-1);
             RaycastCornerBlit(source, destination, edgeDetectMaterial);
         }
-
 
         void RaycastCornerBlit(RenderTexture source, RenderTexture dest, Material mat)
         {
